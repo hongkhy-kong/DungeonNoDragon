@@ -1,0 +1,136 @@
+[gd_scene load_steps=12 format=3 uid="uid://dwtisi0rpo8j2"]
+
+[ext_resource type="Texture2D" uid="uid://cs50a8oqar7y" path="res://Asset/player/WarriorLeftAttack01.png" id="2_pckjn"]
+
+[sub_resource type="GDScript" id="GDScript_a02v7"]
+script/source = "extends CharacterBody2D
+
+var enemy_inattack_range = false
+var enemy_attack_cooldown = true
+var health = 100
+var player_alive = true
+
+const SPEED = 150.0
+
+func _physics_process(delta: float) -> void:
+
+	# 4-direction movement
+	var direction = Vector2.ZERO
+
+	direction.x = Input.get_axis(\"ui_left\", \"ui_right\")
+	direction.y = Input.get_axis(\"ui_up\", \"ui_down\")
+
+	# Normalize prevents faster diagonal movement
+	direction = direction.normalized()
+
+	velocity = direction * SPEED
+
+	move_and_slide()
+
+
+func _on_player_hitbox_body_entered(body: Node2D) -> void:
+	if body.has_method(\"enemy\"):
+		enemy_inattack_range = true
+
+
+func _on_player_hitbox_body_exited(body: Node2D) -> void:
+	if body.has_method(\"enemy\"):
+		enemy_inattack_range = false
+
+
+func enemy_attack():
+	if enemy_inattack_range:
+		print(\"player hit\")
+
+
+func take_damage(amount):
+	health -= amount
+	print(\"Player HP:\", health)
+
+	if health <= 0:
+		player_alive = false
+		print(\"Player died\")
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8q3y0"]
+atlas = ExtResource("2_pckjn")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6asyo"]
+atlas = ExtResource("2_pckjn")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vr4ww"]
+atlas = ExtResource("2_pckjn")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7sgo"]
+atlas = ExtResource("2_pckjn")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74osu"]
+atlas = ExtResource("2_pckjn")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kcejv"]
+atlas = ExtResource("2_pckjn")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gi46a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8q3y0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6asyo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vr4ww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7sgo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74osu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kcejv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5772k"]
+radius = 4.0
+height = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_md1i0"]
+radius = 28.460499
+
+[node name="player" type="CharacterBody2D" groups=["player"]]
+collision_mask = 8
+script = SubResource("GDScript_a02v7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_gi46a")
+frame = 3
+frame_progress = 0.7053973
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_5772k")
+
+[node name="player_hitbox" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox"]
+shape = SubResource("CircleShape2D_md1i0")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(6, 6)
+
+[connection signal="body_entered" from="player_hitbox" to="." method="_on_player_hitbox_body_entered"]
+[connection signal="body_exited" from="player_hitbox" to="." method="_on_player_hitbox_body_exited"]
