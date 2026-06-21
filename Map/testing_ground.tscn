@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bqsxqtrlx7mf4"]
+
+[ext_resource type="PackedScene" uid="uid://bi5ht1rfs2vy6" path="res://Scence/mobs/vampire.tscn" id="1_tn2e1"]
+[ext_resource type="PackedScene" uid="uid://bxxafky7foiem" path="res://Scence/mobs/player.tscn" id="2_axgw6"]
+
+[node name="Testing Ground" type="Node2D" unique_id=528524232 groups=["player"]]
+
+[node name="Vampire" parent="." unique_id=1449818536 instance=ExtResource("1_tn2e1")]
+
+[node name="player" parent="." unique_id=1720141716 instance=ExtResource("2_axgw6")]

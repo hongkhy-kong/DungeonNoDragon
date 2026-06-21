@@ -1,14 +1,17 @@
 extends Node2D
+
 @export var mob1_scene: PackedScene
 @export var vampire_scene: PackedScene
-@export var mob_count := 15
 
-@export var map_width := 50
-@export var map_height := 80
+# Harder than Level 1
+@export var mob_count := 25
 
-@export var room_count := 15
+@export var map_width := 70
+@export var map_height := 100
+
+@export var room_count := 20
 @export var room_min_size := 8
-@export var room_max_size := 16
+@export var room_max_size := 18
 
 @onready var floor_layer = $FloorLayer
 @onready var wall_layer = $WallLayer
@@ -31,8 +34,8 @@ class Room:
 
 	func center() -> Vector2i:
 		return Vector2i(
-			x + int(w / 2),
-			y + int(h / 2)
+			x + w / 2,
+			y + h / 2
 		)
 
 	func intersects(other) -> bool:
@@ -44,12 +47,9 @@ class Room:
 		)
 
 func _ready():
-	print("LEVEL1 READY")
-	print("Mob1:", mob1_scene)
-	print("Vampire:", vampire_scene)
-
 	randomize()
 	generate_dungeon()
+
 func generate_dungeon():
 
 	floor_layer.clear()
@@ -89,28 +89,21 @@ func generate_dungeon():
 		for rx in range(new_room.x, new_room.x + new_room.w):
 			for ry in range(new_room.y, new_room.y + new_room.h):
 				floor_cells.append(Vector2i(rx, ry))
-				
-	#--------------
-		if rooms.size() > 0:
-			var spawn_room = rooms.pick_random()
-			var spawn_pos = spawn_room.center()
 
-			player.global_position = Vector2(
+	# =====================
+	# PLAYER SPAWN
+	# =====================
+
+	if rooms.size() > 0:
+
+		var spawn_room = rooms.pick_random()
+		var spawn_pos = spawn_room.center()
+
+		player.global_position = Vector2(
 			spawn_pos.x * 16 + 8,
 			spawn_pos.y * 16 + 8
 		)
-	#-------------
-		if rooms.size() > 0:
-			var spawn_room = rooms.pick_random()
-			var spawn_pos = spawn_room.center()
 
-			player.global_position = Vector2(
-			spawn_pos.x * 16 + 8,
-			spawn_pos.y * 16 + 8
-	)
-
-	spawn_mobs(rooms)
-	#-------------
 	# =====================
 	# CONNECT ROOMS
 	# =====================
@@ -123,12 +116,10 @@ func generate_dungeon():
 		var start = room_a.center()
 		var end = room_b.center()
 
-		# Horizontal corridor
 		for x in range(min(start.x, end.x), max(start.x, end.x) + 1):
 			for offset in range(-1, 2):
 				floor_cells.append(Vector2i(x, start.y + offset))
 
-		# Vertical corridor
 		for y in range(min(start.y, end.y), max(start.y, end.y) + 1):
 			for offset in range(-1, 2):
 				floor_cells.append(Vector2i(end.x + offset, y))
@@ -148,10 +139,10 @@ func generate_dungeon():
 		Vector2i(1, 1)
 	]
 
-	for floor in floor_cells:
+	for floor_tile in floor_cells:
 		for dir in dirs:
 
-			var pos = floor + dir
+			var pos = floor_tile + dir
 
 			if !floor_cells.has(pos):
 				if !wall_cells.has(pos):
@@ -159,7 +150,6 @@ func generate_dungeon():
 
 	# =====================
 	# DRAW FLOORS
-	# Terrain Set 0
 	# =====================
 
 	floor_layer.set_cells_terrain_connect(
@@ -170,20 +160,27 @@ func generate_dungeon():
 
 	# =====================
 	# DRAW WALLS
-	# Terrain Set 1
 	# =====================
 
 	for wall_pos in wall_cells:
 		wall_layer.set_cell(
-		wall_pos,
-		0,
-		Vector2i(1, 4)
-	
-	)
-	
+			wall_pos,
+			0,
+			Vector2i(1, 4)
+		)
+
+	# =====================
+	# SPAWN MOBS
+	# =====================
+
+	spawn_mobs(rooms)
+
 func spawn_mobs(rooms):
 
+	# More Mob1 than Vampires
 	var mob_scenes = [
+		mob1_scene,
+		mob1_scene,
 		mob1_scene,
 		vampire_scene
 	]
@@ -216,6 +213,6 @@ func spawn_mobs(rooms):
 
 		add_child(mob)
 
+	print("LEVEL 2 GENERATED")
 	print("Rooms: ", rooms.size())
-	print("Floor Tiles: ", floor_cells.size())
-	print("Wall Tiles: ", wall_cells.size())
+	print("Enemies: ", mob_count)

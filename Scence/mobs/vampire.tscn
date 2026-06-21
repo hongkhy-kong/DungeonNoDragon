@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://bi5ht1rfs2vy6"]
+
+[ext_resource type="Script" uid="uid://cfmgno6oj0noe" path="res://Scence/mobs/vampire.gd" id="1_hm1g4"]
+[ext_resource type="Texture2D" uid="uid://dpp4llqme6aij" path="res://Asset/This/enemy/enemies-vampire_idle.png" id="2_t8rk8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fnlj"]
+atlas = ExtResource("2_t8rk8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qms7y"]
+atlas = ExtResource("2_t8rk8")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2ffr"]
+atlas = ExtResource("2_t8rk8")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up6oq"]
+atlas = ExtResource("2_t8rk8")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ln6o"]
+atlas = ExtResource("2_t8rk8")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7ari"]
+atlas = ExtResource("2_t8rk8")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1wymk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4fnlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qms7y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2ffr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_up6oq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ln6o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7ari")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hm1g4"]
+radius = 85.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t8rk8"]
+radius = 16.03122
+
+[node name="Vampire" type="CharacterBody2D" unique_id=1449818536]
+script = ExtResource("1_hm1g4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1491290751]
+sprite_frames = SubResource("SpriteFrames_1wymk")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1629159342]
+
+[node name="Detection" type="Area2D" parent="." unique_id=69084167]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detection" unique_id=97705698]
+shape = SubResource("CircleShape2D_hm1g4")
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=1803875257]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1158046770]
+shape = SubResource("CircleShape2D_t8rk8")
+
+[node name="Timer" type="Timer" parent="." unique_id=474896942]
+one_shot = true
+
+[connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
+[connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]
