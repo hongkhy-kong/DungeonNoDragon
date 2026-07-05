@@ -1,0 +1,114 @@
+[gd_scene load_steps=10 format=3 uid="uid://m0eq0foer5es"]
+
+[ext_resource type="Texture2D" uid="uid://cmwwutk1jwttc" path="res://Asset/Anything/background - Copy.png" id="1_fcnjq"]
+[ext_resource type="Script" uid="uid://c118wspl3a1qx" path="res://Scence/main_menu.gd" id="1_r5rx7"]
+[ext_resource type="FontFile" uid="uid://cd3u1n7l5k2h4" path="res://Asset/font/Mathreal.ttf" id="2_gqmvh"]
+[ext_resource type="AudioStream" uid="uid://pek730xeluak" path="res://Asset/BackgroundMusic/1-04. Twinleaf Town (Day).mp3" id="3_gqmvh"]
+[ext_resource type="FontFile" uid="uid://cuwn1t7yt80v5" path="res://Asset/font/ChunkyBeardDEMO.otf" id="3_ivvtw"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r5rx7"]
+texture = ExtResource("1_fcnjq")
+modulate_color = Color(0.38170326, 0.38170323, 0.38170323, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivvtw"]
+bg_color = Color(0.96862745, 0.96862745, 0.96862745, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cqotx"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a3apt"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r5rx7")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_r5rx7")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -312.0
+offset_top = -195.0
+offset_right = 313.0
+offset_bottom = -112.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1.1621469, 1.2076441, 1.2192473, 1)
+theme_override_fonts/font = ExtResource("3_ivvtw")
+theme_override_font_sizes/font_size = 60
+text = "Dungeon No Dragaon"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 501.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.4392157)
+theme_override_fonts/font = ExtResource("2_gqmvh")
+text = "Extremly Copyrighted, Do not publish it. I'm too broke to get sued"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -173.0
+offset_top = -372.0
+offset_right = 118.5
+offset_bottom = -175.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Start" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_ivvtw")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_ivvtw")
+text = "Start"
+
+[node name="Setting" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_ivvtw")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_cqotx")
+text = "Setting"
+
+[node name="Exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_ivvtw")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_a3apt")
+text = "Exit"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_gqmvh")
+autoplay = true
+
+[connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/Setting" to="." method="_on_setting_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

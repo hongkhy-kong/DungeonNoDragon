@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://pek730xeluak"
+path="res://.godot/imported/1-04. Twinleaf Town (Day).mp3-6befb28570d6740ef60a4028e846983e.mp3str"
+
+[deps]
+
+source_file="res://Asset/BackgroundMusic/1-04. Twinleaf Town (Day).mp3"
+dest_files=["res://.godot/imported/1-04. Twinleaf Town (Day).mp3-6befb28570d6740ef60a4028e846983e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://c38e5jfxibcco"]
+
+[ext_resource type="Texture2D" uid="uid://8hq888e74f5k" path="res://Asset/Anything/download.webp" id="1_suhhc"]
+[ext_resource type="FontFile" uid="uid://uibyu8giro0a" path="res://Asset/font/SoundWaveRacing-Regular.otf" id="2_6g2us"]
+[ext_resource type="AudioStream" uid="uid://dpoq5ta00nw76" path="res://Asset/BackgroundMusic/1-11. Dawn.mp3" id="3_r776u"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5t84w"]
+texture = ExtResource("1_suhhc")
+
+[node name="Setting" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_5t84w")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 343.0
+offset_top = 194.0
+offset_right = 787.0
+offset_bottom = 240.0
+theme_override_colors/font_color = Color(0.0019457941, 0.0019457941, 0.0019457941, 1)
+theme_override_fonts/font = ExtResource("2_6g2us")
+theme_override_font_sizes/font_size = 35
+text = "There is nothing here"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 134.0
+offset_top = 241.0
+offset_right = 1060.0
+offset_bottom = 287.0
+theme_override_colors/font_color = Color(0.0019457941, 0.0019457941, 0.0019457941, 1)
+theme_override_fonts/font = ExtResource("2_6g2us")
+theme_override_font_sizes/font_size = 35
+text = "What are you trying to change ? Sensitivity?"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 188.0
+offset_top = 596.0
+offset_right = 951.0
+offset_bottom = 642.0
+theme_override_colors/font_color = Color(0.0019457941, 0.0019457941, 0.0019457941, 1)
+theme_override_fonts/font = ExtResource("2_6g2us")
+theme_override_font_sizes/font_size = 20
+text = "Aslo I'm not giving you \"back\" button, you have restart the game"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_r776u")
+autoplay = true
