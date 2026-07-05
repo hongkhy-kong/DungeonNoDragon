@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c38e5jfxibcco"]
+[gd_scene format=3 uid="uid://c38e5jfxibcco"]
 
 [ext_resource type="Texture2D" uid="uid://8hq888e74f5k" path="res://Asset/Anything/download.webp" id="1_suhhc"]
 [ext_resource type="FontFile" uid="uid://uibyu8giro0a" path="res://Asset/font/SoundWaveRacing-Regular.otf" id="2_6g2us"]

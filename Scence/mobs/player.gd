@@ -6,6 +6,8 @@ extends CharacterBody2D
 
 var health := max_health
 
+
+
 enum State {
 	ALIVE,
 	DEAD

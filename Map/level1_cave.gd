@@ -1,7 +1,15 @@
 extends Node2D
+
+# ======================================================
+# SCENES
+# ======================================================
+
 @export var mob1_scene: PackedScene
 @export var vampire_scene: PackedScene
-@export var mob_count := 15
+
+# ======================================================
+# MAP SETTINGS
+# ======================================================
 
 @export var map_width := 50
 @export var map_height := 80
@@ -10,32 +18,56 @@ extends Node2D
 @export var room_min_size := 8
 @export var room_max_size := 16
 
+@export var mob_count := 15
+
+# ======================================================
+# NODES
+# ======================================================
+
 @onready var floor_layer = $FloorLayer
 @onready var wall_layer = $WallLayer
 @onready var player = $player
 
-var floor_cells: Array[Vector2i] = []
-var wall_cells: Array[Vector2i] = []
+# ======================================================
+# VARIABLES
+# ======================================================
+
+const TILE_SIZE := 16
+
+var current_floor := 1
+var enemies_alive := 0
+
+var floor_cells : Array[Vector2i] = []
+var wall_cells : Array[Vector2i] = []
+var rooms = []
+
+# ======================================================
+# ROOM CLASS
+# ======================================================
 
 class Room:
-	var x: int
-	var y: int
-	var w: int
-	var h: int
+
+	var x : int
+	var y : int
+	var w : int
+	var h : int
 
 	func _init(px, py, pw, ph):
+
 		x = px
 		y = py
 		w = pw
 		h = ph
 
 	func center() -> Vector2i:
+
 		return Vector2i(
-			x + int(w / 2),
-			y + int(h / 2)
+			x + w / 2,
+			y + h / 2
 		)
 
 	func intersects(other) -> bool:
+
 		return (
 			x < other.x + other.w
 			and x + w > other.x
@@ -43,41 +75,101 @@ class Room:
 			and y + h > other.y
 		)
 
+# ======================================================
+# READY
+# ======================================================
+
 func _ready():
-	print("LEVEL1 READY")
-	print("Mob1:", mob1_scene)
-	print("Vampire:", vampire_scene)
 
 	randomize()
+
+	print("==========")
+	print("Floor :", current_floor)
+	print("==========")
+
 	generate_dungeon()
+
+# ======================================================
+# NEXT FLOOR
+# ======================================================
+
+func next_floor():
+
+	current_floor += 1
+
+	print("")
+	print("=======================")
+	print("Entering Floor ", current_floor)
+	print("=======================")
+
+	generate_dungeon()
+
+# ======================================================
+# GENERATE DUNGEON
+# ======================================================
+
 func generate_dungeon():
+
+	# Remove old enemies
+
+	for child in get_children():
+
+		if child.is_in_group("Enemy"):
+			child.queue_free()
 
 	floor_layer.clear()
 	wall_layer.clear()
 
 	floor_cells.clear()
 	wall_cells.clear()
+	rooms.clear()
 
-	var rooms = []
+	create_rooms()
 
-	# =====================
-	# CREATE ROOMS
-	# =====================
+	connect_rooms()
 
-	for i in room_count:
+	generate_walls()
+
+	draw_map()
+
+	spawn_player()
+
+	spawn_mobs()
+
+# ======================================================
+# CREATE ROOMS
+# ======================================================
+
+func create_rooms():
+
+	for i in range(room_count):
 
 		var w = randi_range(room_min_size, room_max_size)
 		var h = randi_range(room_min_size, room_max_size)
 
-		var x = randi_range(2, map_width - w - 2)
-		var y = randi_range(2, map_height - h - 2)
+		var x = randi_range(
+			2,
+			map_width - w - 2
+		)
 
-		var new_room = Room.new(x, y, w, h)
+		var y = randi_range(
+			2,
+			map_height - h - 2
+		)
+
+		var new_room = Room.new(
+			x,
+			y,
+			w,
+			h
+		)
 
 		var overlaps = false
 
 		for room in rooms:
+
 			if new_room.intersects(room):
+
 				overlaps = true
 				break
 
@@ -86,34 +178,25 @@ func generate_dungeon():
 
 		rooms.append(new_room)
 
-		for rx in range(new_room.x, new_room.x + new_room.w):
-			for ry in range(new_room.y, new_room.y + new_room.h):
-				floor_cells.append(Vector2i(rx, ry))
+		for rx in range(
+			new_room.x,
+			new_room.x + new_room.w
+		):
+
+			for ry in range(
+				new_room.y,
+				new_room.y + new_room.h
+			):
+
+				floor_cells.append(
+					Vector2i(rx, ry)
+				)
 				
-	#--------------
-		if rooms.size() > 0:
-			var spawn_room = rooms.pick_random()
-			var spawn_pos = spawn_room.center()
+# ======================================================
+# CONNECT ROOMS
+# ======================================================
 
-			player.global_position = Vector2(
-			spawn_pos.x * 16 + 8,
-			spawn_pos.y * 16 + 8
-		)
-	#-------------
-		if rooms.size() > 0:
-			var spawn_room = rooms.pick_random()
-			var spawn_pos = spawn_room.center()
-
-			player.global_position = Vector2(
-			spawn_pos.x * 16 + 8,
-			spawn_pos.y * 16 + 8
-	)
-
-	spawn_mobs(rooms)
-	#-------------
-	# =====================
-	# CONNECT ROOMS
-	# =====================
+func connect_rooms():
 
 	for i in range(rooms.size() - 1):
 
@@ -123,44 +206,52 @@ func generate_dungeon():
 		var start = room_a.center()
 		var end = room_b.center()
 
-		# Horizontal corridor
+		# Horizontal Corridor
 		for x in range(min(start.x, end.x), max(start.x, end.x) + 1):
 			for offset in range(-1, 2):
 				floor_cells.append(Vector2i(x, start.y + offset))
 
-		# Vertical corridor
+		# Vertical Corridor
 		for y in range(min(start.y, end.y), max(start.y, end.y) + 1):
 			for offset in range(-1, 2):
 				floor_cells.append(Vector2i(end.x + offset, y))
 
-	# =====================
-	# GENERATE WALLS
-	# =====================
+
+# ======================================================
+# GENERATE WALLS
+# ======================================================
+
+func generate_walls():
 
 	var dirs = [
 		Vector2i.LEFT,
 		Vector2i.RIGHT,
 		Vector2i.UP,
 		Vector2i.DOWN,
-		Vector2i(-1, -1),
-		Vector2i(1, -1),
-		Vector2i(-1, 1),
-		Vector2i(1, 1)
+		Vector2i(-1,-1),
+		Vector2i(1,-1),
+		Vector2i(-1,1),
+		Vector2i(1,1)
 	]
 
 	for floor in floor_cells:
+
 		for dir in dirs:
 
 			var pos = floor + dir
 
 			if !floor_cells.has(pos):
+
 				if !wall_cells.has(pos):
+
 					wall_cells.append(pos)
 
-	# =====================
-	# DRAW FLOORS
-	# Terrain Set 0
-	# =====================
+
+# ======================================================
+# DRAW MAP
+# ======================================================
+
+func draw_map():
 
 	floor_layer.set_cells_terrain_connect(
 		floor_cells,
@@ -168,25 +259,70 @@ func generate_dungeon():
 		0
 	)
 
-	# =====================
-	# DRAW WALLS
-	# Terrain Set 1
-	# =====================
+	for wall in wall_cells:
 
-	for wall_pos in wall_cells:
 		wall_layer.set_cell(
-		wall_pos,
-		0,
-		Vector2i(1, 4)
-	
-	)
-	
-func spawn_mobs(rooms):
+			wall,
+			0,
+			Vector2i(1,4)
+		)
 
-	var mob_scenes = [
-		mob1_scene,
-		vampire_scene
-	]
+
+# ======================================================
+# PLAYER SPAWN
+# ======================================================
+
+func spawn_player():
+
+	if rooms.is_empty():
+		return
+
+	var room = rooms.pick_random()
+
+	var pos = room.center()
+
+	player.global_position = Vector2(
+		pos.x * TILE_SIZE + TILE_SIZE / 2,
+		pos.y * TILE_SIZE + TILE_SIZE / 2
+	)
+
+
+# ======================================================
+# SPAWN ENEMIES
+# ======================================================
+
+func spawn_mobs():
+
+	enemies_alive = 0
+
+	var mob_scenes = []
+
+	match current_floor:
+
+		1:
+			mob_count = 10
+			mob_scenes = [
+				mob1_scene
+			]
+
+		2:
+			mob_count = 15
+			mob_scenes = [
+				mob1_scene,
+				vampire_scene
+			]
+
+		3:
+			mob_count = 20
+			mob_scenes = [
+				vampire_scene
+			]
+
+		4:
+			mob_count = 25
+			mob_scenes = [
+				vampire_scene
+			]
 
 	for i in range(mob_count):
 
@@ -202,20 +338,42 @@ func spawn_mobs(rooms):
 			room.y + room.h - 2
 		)
 
-		var scene = mob_scenes.pick_random()
+		var mob_scene = mob_scenes.pick_random()
 
-		if scene == null:
+		if mob_scene == null:
 			continue
 
-		var mob = scene.instantiate()
+		var mob = mob_scene.instantiate()
 
 		mob.global_position = Vector2(
-			x * 16 + 8,
-			y * 16 + 8
+			x * TILE_SIZE + TILE_SIZE / 2,
+			y * TILE_SIZE + TILE_SIZE / 2
 		)
+
+		mob.add_to_group("Enemy")
+
+		# Listen for enemy death
+		mob.died.connect(enemy_defeated)
+
+		enemies_alive += 1
 
 		add_child(mob)
 
-	print("Rooms: ", rooms.size())
-	print("Floor Tiles: ", floor_cells.size())
-	print("Wall Tiles: ", wall_cells.size())
+	print("Enemies Alive:", enemies_alive)
+
+
+# ======================================================
+# ENEMY DIED
+# ======================================================
+
+func enemy_defeated():
+
+	enemies_alive -= 1
+
+	print("Enemies Left:", enemies_alive)
+
+	if enemies_alive <= 0:
+
+		await get_tree().create_timer(1.0).timeout
+
+		next_floor()

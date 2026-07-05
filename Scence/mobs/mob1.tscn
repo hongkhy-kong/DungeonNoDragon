@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cacb8dat0eeip"]
+[gd_scene format=3 uid="uid://cacb8dat0eeip"]
 
 [ext_resource type="Script" uid="uid://dbcs6om7a3l68" path="res://Scence/mobs/mob_1.gd" id="1_0jcqs"]
 [ext_resource type="Texture2D" uid="uid://d1lhonj5m8mx6" path="res://Asset/This/enemy/enemies-skeleton1_attack.png" id="2_oadbm"]
@@ -124,36 +124,36 @@ size = Vector2(19.5, 8)
 [sub_resource type="CircleShape2D" id="CircleShape2D_0jcqs"]
 radius = 116.00431
 
-[node name="Mob1" type="CharacterBody2D"]
+[node name="Mob1" type="CharacterBody2D" unique_id=770263787]
 collision_layer = 2
 collision_mask = 8
 script = ExtResource("1_0jcqs")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=895964933]
 light_mask = 2
 position = Vector2(4, -11)
 sprite_frames = SubResource("SpriteFrames_j548l")
 animation = &"attack_up"
 frame_progress = 0.9273656
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1233296236]
 position = Vector2(1, -9)
 shape = SubResource("CapsuleShape2D_male4")
 
-[node name="AttackArea" type="Area2D" parent="."]
+[node name="AttackArea" type="Area2D" parent="." unique_id=1432631838]
 collision_layer = 2
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=120415739]
 position = Vector2(3, -19)
 shape = SubResource("RectangleShape2D_o7ry6")
 debug_color = Color(0.95141596, 1.92523e-07, 0.56619465, 0.41960785)
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1981478916]
 
-[node name="Detection" type="Area2D" parent="."]
+[node name="Detection" type="Area2D" parent="." unique_id=1576431839]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detection" unique_id=751460497]
 visible = false
 position = Vector2(1, -4)
 shape = SubResource("CircleShape2D_0jcqs")
