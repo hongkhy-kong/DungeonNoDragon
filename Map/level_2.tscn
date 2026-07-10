@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://ljudicus3shk"]
+[gd_scene load_steps=0 format=4 uid="uid://ljudicus3shk"]
 
 [ext_resource type="Texture2D" uid="uid://ds2a6lq15ryhu" path="res://Asset/This/character and tileset/Dungeon_Tileset.png" id="1_6kxdh"]
 [ext_resource type="Script" uid="uid://bdrjggdw4cnmv" path="res://Map/level_2_cave.gd" id="1_845re"]

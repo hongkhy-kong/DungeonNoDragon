@@ -83,7 +83,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_62gbf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"attack_left",
 "speed": 5.0
 }, {
@@ -109,7 +109,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i0r8m")
 }],
-"loop": true,
+"loop": 1,
 "name": &"attack_up",
 "speed": 5.0
 }]
@@ -124,8 +124,7 @@ size = Vector2(19.5, 8)
 [sub_resource type="CircleShape2D" id="CircleShape2D_0jcqs"]
 radius = 116.00431
 
-[node name="Mob1" type="CharacterBody2D" unique_id=770263787]
-collision_layer = 2
+[node name="Mob1" type="CharacterBody2D" unique_id=770263787 groups=["enemy"]]
 collision_mask = 8
 script = ExtResource("1_0jcqs")
 

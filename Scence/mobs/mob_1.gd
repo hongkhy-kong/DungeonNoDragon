@@ -92,6 +92,7 @@ func _on_timer_timeout() -> void:
 # 💀 Damage System
 # -------------------------
 func take_damage(amount: int) -> void:
+	print("take_damage called!")
 	hp -= amount
 	print("Enemy HP:", hp)
 

@@ -152,17 +152,14 @@ func attack():
 
 func _on_attack_area_body_entered(body):
 
-	print("----------------")
-	print("Hit:", body.name)
-	print("Groups:", body.get_groups())
-	print("Is attacking:", is_attacking)
-
 	if not is_attacking:
 		return
 
-	if body.is_in_group("enemy"):
-		print("Enemy damaged!")
+	print("Hit:", body.name)
+
+	if body.has_method("take_damage"):
 		body.take_damage(damage)
+		print("Damage sent")
 
 
 func _on_animated_sprite_2d_animation_finished():

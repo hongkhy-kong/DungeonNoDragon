@@ -1,56 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dwtisi0rpo8j2"]
 
+[ext_resource type="Script" uid="uid://byjmfd4t4ofsl" path="res://Scence/mobs/notplayer.gd" id="1_v1a54"]
 [ext_resource type="Texture2D" uid="uid://cs50a8oqar7y" path="res://Asset/player/WarriorLeftAttack01.png" id="2_pckjn"]
-
-[sub_resource type="GDScript" id="GDScript_a02v7"]
-script/source = "extends CharacterBody2D
-
-var enemy_inattack_range = false
-var enemy_attack_cooldown = true
-var health = 100
-var player_alive = true
-
-const SPEED = 150.0
-
-func _physics_process(delta: float) -> void:
-
-	# 4-direction movement
-	var direction = Vector2.ZERO
-
-	direction.x = Input.get_axis(\"ui_left\", \"ui_right\")
-	direction.y = Input.get_axis(\"ui_up\", \"ui_down\")
-
-	# Normalize prevents faster diagonal movement
-	direction = direction.normalized()
-
-	velocity = direction * SPEED
-
-	move_and_slide()
-
-
-func _on_player_hitbox_body_entered(body: Node2D) -> void:
-	if body.has_method(\"enemy\"):
-		enemy_inattack_range = true
-
-
-func _on_player_hitbox_body_exited(body: Node2D) -> void:
-	if body.has_method(\"enemy\"):
-		enemy_inattack_range = false
-
-
-func enemy_attack():
-	if enemy_inattack_range:
-		print(\"player hit\")
-
-
-func take_damage(amount):
-	health -= amount
-	print(\"Player HP:\", health)
-
-	if health <= 0:
-		player_alive = false
-		print(\"Player died\")
-"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8q3y0"]
 atlas = ExtResource("2_pckjn")
@@ -111,7 +62,7 @@ radius = 28.460499
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 8
-script = SubResource("GDScript_a02v7")
+script = ExtResource("1_v1a54")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.5, 0.5)

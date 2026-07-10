@@ -225,7 +225,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f0fw1")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack_down",
 "speed": 5.0
 }, {
@@ -248,7 +248,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f3ls1")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack_right",
 "speed": 5.0
 }, {
@@ -271,7 +271,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qdokd")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack_up",
 "speed": 5.0
 }, {
@@ -288,7 +288,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_34o1q")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_down",
 "speed": 5.0
 }, {
@@ -302,7 +302,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o7uhf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_right",
 "speed": 2.0
 }, {
@@ -319,7 +319,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2ny12")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_up",
 "speed": 1.0
 }, {
@@ -348,7 +348,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qfkas")
 }],
-"loop": false,
+"loop": 0,
 "name": &"walk_down",
 "speed": 5.0
 }, {
@@ -377,7 +377,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mrmpe")
 }],
-"loop": false,
+"loop": 0,
 "name": &"walk_right",
 "speed": 5.0
 }, {
@@ -406,12 +406,14 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7jscb")
 }],
-"loop": false,
+"loop": 0,
 "name": &"walk_up",
 "speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_allxc"]
+radius = 4.0
+height = 16.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7af1"]
 size = Vector2(6.5, 16)
@@ -419,39 +421,37 @@ size = Vector2(6.5, 16)
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvee6"]
 radius = 48.04165
 
-[node name="player" type="CharacterBody2D" unique_id=1171884337]
+[node name="player" type="CharacterBody2D" unique_id=1843001232 groups=["player"]]
 scale = Vector2(0.5, 0.5)
+collision_layer = 3
+collision_mask = 9
 script = ExtResource("1_jvee6")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=810743949]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=705300148]
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_00vd6")
 animation = &"attack_right"
 frame = 5
 frame_progress = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1001314464]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1297798204]
 shape = SubResource("CapsuleShape2D_allxc")
 
-[node name="AttackArea" type="Area2D" parent="." unique_id=1525506767]
-collision_mask = 3
+[node name="AttackArea" type="Area2D" parent="." unique_id=2060157755]
+collision_mask = 9
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=738759854]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=966703683]
 shape = SubResource("RectangleShape2D_p7af1")
 debug_color = Color(0.827451, 0.023529412, 0.31764707, 0.41960785)
 
-[node name="detection" type="Area2D" parent="." unique_id=139741017]
-visible = false
+[node name="detection" type="Area2D" parent="." unique_id=2076353698]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="detection" unique_id=1478304373]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection" unique_id=2081798661]
 shape = SubResource("CircleShape2D_jvee6")
 debug_color = Color(0.47449356, 0.58953834, 9.62615e-07, 0.41960785)
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1283247637]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1274455751]
 visible = false
-zoom = Vector2(6, 6)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
