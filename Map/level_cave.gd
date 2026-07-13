@@ -29,15 +29,13 @@ extends Node2D
 @onready var wall_layer = $WallLayer
 @onready var player = $player
 
-@onready var hp_label = $CanvasLayer/HPLabel
-@onready var enemy_label = $CanvasLayer/EnemyLabel
-@onready var floor_label = $CanvasLayer/FloorLabel
-@onready var death_label = $CanvasLayer/DeathLabel
+@onready var hp_label = $HUD/HPLabel
+@onready var enemy_label = $HUD/EnemyLabel
+@onready var floor_label = $HUD/FloorLabel
 
-@onready var game_over_panel = $CanvasLayer/GameOverPanel
-@onready var restart_button = $CanvasLayer/GameOverPanel/VBoxContainer/RestartButton
-@onready var hub_button = $CanvasLayer/GameOverPanel/VBoxContainer/HubButton
-
+@onready var game_over_panel = $HUD/GameOverPanel
+@onready var restart_button = $HUD/GameOverPanel/VBoxContainer/RestartButton
+@onready var hub_button = $HUD/GameOverPanel/VBoxContainer/HubButton
 # ======================================================
 # VARIABLES
 # ======================================================
@@ -318,6 +316,9 @@ func spawn_player():
 
 func spawn_mobs():
 
+	print("----------------")
+	print("Current Floor:", current_floor)
+
 	enemies_alive = 0
 
 	var mob_scenes = []
@@ -325,10 +326,8 @@ func spawn_mobs():
 	match current_floor:
 
 		1:
-			mob_count = 1
-			mob_scenes = [
-				mob1_scene
-			]
+			mob_count = 5
+			mob_scenes = [mob1_scene]
 
 		2:
 			mob_count = 2
@@ -339,16 +338,14 @@ func spawn_mobs():
 
 		3:
 			mob_count = 3
-			mob_scenes = [
-				vampire_scene
-			]
+			mob_scenes = [vampire_scene]
 
 		4:
 			mob_count = 4
-			mob_scenes = [
-				vampire_scene
-			]
+			mob_scenes = [vampire_scene]
 
+	print("Mob Count:", mob_count)
+	
 	for i in range(mob_count):
 
 		var room = rooms.pick_random()
@@ -365,7 +362,10 @@ func spawn_mobs():
 
 		var mob_scene = mob_scenes.pick_random()
 
+		print("Picked Scene:", mob_scene)
+
 		if mob_scene == null:
+			print("ERROR: mob_scene is NULL")
 			continue
 
 		var mob = mob_scene.instantiate()

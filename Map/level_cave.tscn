@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://1gapkgbt53om" path="res://Map/level_cave.gd" id="1_spb51"]
 [ext_resource type="PackedScene" uid="uid://cacb8dat0eeip" path="res://Scence/mobs/mob1.tscn" id="2_ecc81"]
 [ext_resource type="PackedScene" uid="uid://bi5ht1rfs2vy6" path="res://Scence/mobs/vampire.tscn" id="3_6nt7w"]
+[ext_resource type="PackedScene" uid="uid://cadrmqi00do6t" path="res://Scence/HUD.tscn" id="3_rwjwn"]
 [ext_resource type="PackedScene" uid="uid://wtsbd54eksi2" path="res://Scence/mobs/spider.tscn" id="4_ecc81"]
 [ext_resource type="Texture2D" uid="uid://ds2a6lq15ryhu" path="res://Asset/This/character and tileset/Dungeon_Tileset.png" id="4_uuwlg"]
 [ext_resource type="PackedScene" uid="uid://bxxafky7foiem" path="res://Scence/mobs/player.tscn" id="5_dka03"]
@@ -407,49 +408,4 @@ tile_set = SubResource("TileSet_bvg6n")
 [node name="player" parent="." unique_id=487497679 instance=ExtResource("5_dka03")]
 scale = Vector2(1, 1)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1856746864]
-
-[node name="HPLabel" type="Label" parent="CanvasLayer" unique_id=1530358359]
-offset_top = 1.0
-offset_right = 40.0
-offset_bottom = 24.0
-text = "HP"
-
-[node name="EnemyLabel" type="Label" parent="CanvasLayer" unique_id=1951226320]
-offset_top = 25.0
-offset_right = 53.0
-offset_bottom = 48.0
-text = "Enemy"
-
-[node name="FloorLabel" type="Label" parent="CanvasLayer" unique_id=2113072151]
-offset_top = 51.0
-offset_right = 53.0
-offset_bottom = 74.0
-text = "Level"
-
-[node name="GameOverPanel" type="Label" parent="CanvasLayer" unique_id=2026595536]
-offset_left = 570.0
-offset_top = 294.0
-offset_right = 623.0
-offset_bottom = 317.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameOverPanel" unique_id=300897938]
-layout_mode = 0
-offset_left = -14.0
-offset_top = -23.0
-offset_right = 170.0
-offset_bottom = 122.0
-
-[node name="DeathLabel" type="Label" parent="CanvasLayer/GameOverPanel/VBoxContainer" unique_id=1409038382]
-layout_mode = 2
-text = "====================
-             YOU DIED
-===================="
-
-[node name="RestartButton" type="Button" parent="CanvasLayer/GameOverPanel/VBoxContainer" unique_id=1660091577]
-layout_mode = 2
-text = "Restart"
-
-[node name="HubButton" type="Button" parent="CanvasLayer/GameOverPanel/VBoxContainer" unique_id=862752647]
-layout_mode = 2
-text = "Return Spawn"
+[node name="HUD" parent="." unique_id=1485593271 instance=ExtResource("3_rwjwn")]
