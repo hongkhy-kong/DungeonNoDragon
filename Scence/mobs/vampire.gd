@@ -122,7 +122,7 @@ func die() -> void:
 
 	set_physics_process(false)
 
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)
 
 	var tween = create_tween()
 

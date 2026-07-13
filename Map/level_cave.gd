@@ -3,9 +3,9 @@ extends Node2D
 # ======================================================
 # SCENES
 # ======================================================
-
 @export var mob1_scene: PackedScene
 @export var vampire_scene: PackedScene
+@export var spider_scene: PackedScene
 
 # ======================================================
 # MAP SETTINGS
@@ -24,9 +24,14 @@ extends Node2D
 # NODES
 # ======================================================
 
+
 @onready var floor_layer = $FloorLayer
 @onready var wall_layer = $WallLayer
 @onready var player = $player
+
+@onready var hp_label = $CanvasLayer/HPLabel
+@onready var enemy_label = $CanvasLayer/EnemyLabel
+@onready var floor_label = $CanvasLayer/FloorLabel
 
 # ======================================================
 # VARIABLES
@@ -87,6 +92,11 @@ func _ready():
 	print("Floor :", current_floor)
 	print("==========")
 
+	player.health_changed.connect(update_hp_label)
+
+	update_hp_label(player.health, player.max_health)
+	update_floor_label()
+	
 	generate_dungeon()
 
 # ======================================================
@@ -96,7 +106,9 @@ func _ready():
 func next_floor():
 
 	current_floor += 1
-
+	update_floor_label()
+	
+	
 	print("")
 	print("=======================")
 	print("Entering Floor ", current_floor)
@@ -134,7 +146,11 @@ func generate_dungeon():
 
 	spawn_player()
 
-	spawn_mobs()
+	if current_floor < 5:
+		spawn_mobs()
+		
+	else:
+		spawn_boss()
 
 # ======================================================
 # CREATE ROOMS
@@ -300,26 +316,26 @@ func spawn_mobs():
 	match current_floor:
 
 		1:
-			mob_count = 10
+			mob_count = 1
 			mob_scenes = [
 				mob1_scene
 			]
 
 		2:
-			mob_count = 15
+			mob_count = 2
 			mob_scenes = [
 				mob1_scene,
 				vampire_scene
 			]
 
 		3:
-			mob_count = 20
+			mob_count = 3
 			mob_scenes = [
 				vampire_scene
 			]
 
 		4:
-			mob_count = 25
+			mob_count = 4
 			mob_scenes = [
 				vampire_scene
 			]
@@ -360,6 +376,30 @@ func spawn_mobs():
 		add_child(mob)
 
 	print("Enemies Alive:", enemies_alive)
+	update_enemy_label()
+
+# ======================================================
+# SPAWN Boss
+# ======================================================
+
+func spawn_boss():
+
+	if rooms.is_empty():
+		return
+
+	var room = rooms.pick_random()
+
+	var boss = spider_scene.instantiate()
+
+	var pos = room.center()
+
+	boss.global_position = Vector2(
+		pos.x * TILE_SIZE + TILE_SIZE / 2,
+		pos.y * TILE_SIZE + TILE_SIZE / 2
+	)
+
+	add_child(boss)
+
 
 
 # ======================================================
@@ -370,10 +410,25 @@ func enemy_defeated():
 
 	enemies_alive -= 1
 
+	update_enemy_label()
 	print("Enemies Left:", enemies_alive)
+	
 
 	if enemies_alive <= 0:
 
 		await get_tree().create_timer(1.0).timeout
 
 		next_floor()
+
+
+
+func update_enemy_label():
+	enemy_label.text = "Enemies Left: " + str(enemies_alive)
+
+func update_hp_label(current_hp, max_hp):
+
+	hp_label.text = "HP : " + str(current_hp) + " / " + str(max_hp)
+
+func update_floor_label():
+
+	floor_label.text = "Floor : " + str(current_floor)

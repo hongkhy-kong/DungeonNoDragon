@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+signal health_changed(current_health, max_health)
+
+
 @export var speed := 120.0
 @export var max_health := 100000
 @export var damage := 2500
@@ -20,6 +23,11 @@ var current_state = State.ALIVE
 var is_attacking = false
 var facing_direction = Vector2.DOWN
 var facing_name = "down"
+
+
+func _ready():
+
+	emit_signal("health_changed", health, max_health)
 
 
 func _physics_process(_delta):
@@ -179,6 +187,8 @@ func take_damage(amount):
 		return
 
 	health -= amount
+
+	emit_signal("health_changed", health, max_health)
 
 	print("Player HP:", health)
 

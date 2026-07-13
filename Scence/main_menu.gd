@@ -4,7 +4,7 @@ func _ready():
 	$VBoxContainer/Start.grab_focus()
 
 func _on_start_pressed():
-	get_tree().change_scene_to_file("res://Map/level1_cave.tscn")
+	get_tree().change_scene_to_file("res://Map/level_cave.tscn")
 
 func _on_setting_pressed():
 	# TODO: Open the settings menu res://Scence/setting.tscn
