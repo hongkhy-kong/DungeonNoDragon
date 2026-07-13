@@ -32,6 +32,11 @@ extends Node2D
 @onready var hp_label = $CanvasLayer/HPLabel
 @onready var enemy_label = $CanvasLayer/EnemyLabel
 @onready var floor_label = $CanvasLayer/FloorLabel
+@onready var death_label = $CanvasLayer/DeathLabel
+
+@onready var game_over_panel = $CanvasLayer/GameOverPanel
+@onready var restart_button = $CanvasLayer/GameOverPanel/VBoxContainer/RestartButton
+@onready var hub_button = $CanvasLayer/GameOverPanel/VBoxContainer/HubButton
 
 # ======================================================
 # VARIABLES
@@ -99,6 +104,10 @@ func _ready():
 	
 	generate_dungeon()
 
+	game_over_panel.visible = false
+	restart_button.pressed.connect(_on_restart_pressed)
+	hub_button.pressed.connect(_on_hub_pressed)
+	
 # ======================================================
 # NEXT FLOOR
 # ======================================================
@@ -432,3 +441,15 @@ func update_hp_label(current_hp, max_hp):
 func update_floor_label():
 
 	floor_label.text = "Floor : " + str(current_floor)
+
+func show_game_over():
+
+	game_over_panel.visible = true
+	
+func _on_restart_pressed():
+
+	get_tree().reload_current_scene()
+	
+func _on_hub_pressed():
+
+	get_tree().change_scene_to_file("res://main_menu.tscn")

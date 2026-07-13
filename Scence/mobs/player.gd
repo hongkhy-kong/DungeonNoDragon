@@ -4,7 +4,7 @@ signal health_changed(current_health, max_health)
 
 
 @export var speed := 120.0
-@export var max_health := 100000
+@export var max_health := 100
 @export var damage := 2500
 
 var health := max_health
@@ -205,4 +205,10 @@ func die():
 
 	print("PLAYER DIED")
 
-	queue_free()
+	get_parent().show_game_over()
+
+	hide()
+
+	set_physics_process(false)
+
+	$CollisionShape2D.set_deferred("disabled", true)
