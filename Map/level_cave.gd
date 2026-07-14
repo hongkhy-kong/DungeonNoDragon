@@ -326,22 +326,22 @@ func spawn_mobs():
 	match current_floor:
 
 		1:
-			mob_count = 5
+			mob_count = 10
 			mob_scenes = [mob1_scene]
 
 		2:
-			mob_count = 2
+			mob_count = 15
 			mob_scenes = [
 				mob1_scene,
 				vampire_scene
 			]
 
 		3:
-			mob_count = 3
+			mob_count = 20
 			mob_scenes = [vampire_scene]
 
 		4:
-			mob_count = 4
+			mob_count = 25
 			mob_scenes = [vampire_scene]
 
 	print("Mob Count:", mob_count)
@@ -452,4 +452,4 @@ func _on_restart_pressed():
 	
 func _on_hub_pressed():
 
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	get_tree().change_scene_to_file("res://Scence/main_menu.tscn")
