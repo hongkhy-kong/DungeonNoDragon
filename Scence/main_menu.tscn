@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://m0eq0foer5es"]
 
 [ext_resource type="Texture2D" uid="uid://cmwwutk1jwttc" path="res://Asset/Anything/background - Copy.png" id="1_fcnjq"]
-[ext_resource type="Script" path="res://Scence/main_menu.gd" id="1_r5rx7"]
+[ext_resource type="Script" uid="uid://c118wspl3a1qx" path="res://Scence/main_menu.gd" id="1_r5rx7"]
 [ext_resource type="FontFile" uid="uid://cd3u1n7l5k2h4" path="res://Asset/font/Mathreal.ttf" id="2_gqmvh"]
 [ext_resource type="AudioStream" uid="uid://pek730xeluak" path="res://Asset/BackgroundMusic/1-04. Twinleaf Town (Day).mp3" id="3_gqmvh"]
 [ext_resource type="FontFile" uid="uid://cuwn1t7yt80v5" path="res://Asset/font/ChunkyBeardDEMO.otf" id="3_ivvtw"]
@@ -107,7 +107,6 @@ text = "Exit"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1971001438]
 stream = ExtResource("3_gqmvh")
-volume_db = -28.31
 autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]

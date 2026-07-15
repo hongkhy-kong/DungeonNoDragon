@@ -1,12 +1,13 @@
 [gd_scene format=4 uid="uid://32sdsuarn118"]
 
 [ext_resource type="Script" uid="uid://1gapkgbt53om" path="res://Map/level_cave.gd" id="1_spb51"]
-[ext_resource type="PackedScene" uid="uid://cacb8dat0eeip" path="res://Scence/mobs/mob1.tscn" id="2_ecc81"]
+[ext_resource type="PackedScene" uid="uid://cacb8dat0eeip" path="res://Scence/mobs/Zombie/zombie.tscn" id="2_ecc81"]
 [ext_resource type="PackedScene" uid="uid://bi5ht1rfs2vy6" path="res://Scence/mobs/vampire.tscn" id="3_6nt7w"]
 [ext_resource type="PackedScene" uid="uid://cadrmqi00do6t" path="res://Scence/HUD.tscn" id="3_rwjwn"]
 [ext_resource type="PackedScene" uid="uid://wtsbd54eksi2" path="res://Scence/mobs/spider.tscn" id="4_ecc81"]
 [ext_resource type="Texture2D" uid="uid://ds2a6lq15ryhu" path="res://Asset/This/character and tileset/Dungeon_Tileset.png" id="4_uuwlg"]
 [ext_resource type="PackedScene" uid="uid://bxxafky7foiem" path="res://Scence/mobs/player.tscn" id="5_dka03"]
+[ext_resource type="AudioStream" uid="uid://bjujp3uplrt17" path="res://Asset/BackgroundMusic/2-66. Champion Cynthia.mp3" id="8_uuwlg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pw8gd"]
 texture = ExtResource("4_uuwlg")
@@ -409,3 +410,8 @@ tile_set = SubResource("TileSet_bvg6n")
 scale = Vector2(1, 1)
 
 [node name="HUD" parent="." unique_id=1485593271 instance=ExtResource("3_rwjwn")]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=2018994452]
+stream = ExtResource("8_uuwlg")
+autoplay = true
+parameters/looping = true
