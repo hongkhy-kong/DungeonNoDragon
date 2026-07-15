@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://b7va8p6dajx6e"]
+
+[ext_resource type="Script" uid="uid://cel2d4fstpcjc" path="res://Scence/interactive/portal.gd" id="1_upgss"]
+[ext_resource type="Texture2D" uid="uid://b85pba6j1xlvb" path="res://Asset/Something/Tilesets/Dark Portal-Spinning.png" id="2_cduep"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gd7kg"]
+atlas = ExtResource("2_cduep")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5qvs"]
+atlas = ExtResource("2_cduep")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4b1nk"]
+atlas = ExtResource("2_cduep")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8cnc"]
+atlas = ExtResource("2_cduep")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atyfb"]
+atlas = ExtResource("2_cduep")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dlsqj"]
+atlas = ExtResource("2_cduep")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2n0ko"]
+atlas = ExtResource("2_cduep")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pya6"]
+atlas = ExtResource("2_cduep")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jeg7m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gd7kg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5qvs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4b1nk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8cnc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atyfb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dlsqj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2n0ko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pya6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rpwqi"]
+radius = 12.806249
+
+[node name="Portal" type="Area2D" unique_id=360285772]
+position = Vector2(1, 2)
+script = ExtResource("1_upgss")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1174546835]
+position = Vector2(0, -1)
+scale = Vector2(0.6874999, 0.75)
+sprite_frames = SubResource("SpriteFrames_jeg7m")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=758241113]
+shape = SubResource("CircleShape2D_rpwqi")
+
+[node name="Label" type="Label" parent="." unique_id=441081760]
+visible = false
+offset_left = -74.0
+offset_top = -42.0
+offset_right = 92.0
+offset_bottom = -19.0
+text = "Press E to join the DG"
+horizontal_alignment = 2
+justification_flags = 171
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

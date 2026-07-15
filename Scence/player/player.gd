@@ -205,7 +205,8 @@ func die():
 
 	print("PLAYER DIED")
 
-	get_parent().show_game_over()
+	var hud = get_parent().get_node("HUD")
+	hud.show_game_over()
 
 	hide()
 

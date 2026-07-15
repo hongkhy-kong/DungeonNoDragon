@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ds2a6lq15ryhu" path="res://Asset/This/character and tileset/Dungeon_Tileset.png" id="1_bkc3c"]
 [ext_resource type="PackedScene" uid="uid://wtsbd54eksi2" path="res://Scence/mobs/spider.tscn" id="2_4b5mw"]
-[ext_resource type="PackedScene" uid="uid://bxxafky7foiem" path="res://Scence/mobs/player.tscn" id="3_hcpxe"]
+[ext_resource type="PackedScene" uid="uid://bxxafky7foiem" path="res://Scence/player/player.tscn" id="3_hcpxe"]
 [ext_resource type="PackedScene" uid="uid://cacb8dat0eeip" path="res://Scence/mobs/Zombie/zombie.tscn" id="4_4b5mw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2dvy0"]

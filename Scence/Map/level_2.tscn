@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://ljudicus3shk"]
 
 [ext_resource type="Texture2D" uid="uid://ds2a6lq15ryhu" path="res://Asset/This/character and tileset/Dungeon_Tileset.png" id="1_6kxdh"]
-[ext_resource type="PackedScene" uid="uid://bxxafky7foiem" path="res://Scence/mobs/player.tscn" id="2_845re"]
+[ext_resource type="PackedScene" uid="uid://bxxafky7foiem" path="res://Scence/player/player.tscn" id="2_845re"]
 [ext_resource type="PackedScene" uid="uid://cacb8dat0eeip" path="res://Scence/mobs/Zombie/zombie.tscn" id="2_trfgs"]
 [ext_resource type="PackedScene" uid="uid://bi5ht1rfs2vy6" path="res://Scence/mobs/vampire.tscn" id="3_oxvis"]
 

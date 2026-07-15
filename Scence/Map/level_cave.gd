@@ -3,9 +3,11 @@ extends Node2D
 # ======================================================
 # SCENES
 # ======================================================
+
 @export var mob1_scene: PackedScene
 @export var vampire_scene: PackedScene
 @export var spider_scene: PackedScene
+
 
 # ======================================================
 # MAP SETTINGS
@@ -20,22 +22,21 @@ extends Node2D
 
 @export var mob_count := 15
 
+
 # ======================================================
 # NODES
 # ======================================================
-
 
 @onready var floor_layer = $FloorLayer
 @onready var wall_layer = $WallLayer
 @onready var player = $player
 
-@onready var hp_label = $HUD/HPLabel
-@onready var enemy_label = $HUD/EnemyLabel
-@onready var floor_label = $HUD/FloorLabel
+# HUD
+@onready var hp_label = $HUD/Control/HPLabel
+@onready var enemy_label = $HUD/Control/EnemyLabel
+@onready var floor_label = $HUD/Control/FloorLabel
 
-@onready var game_over_panel = $HUD/GameOverPanel
-@onready var restart_button = $HUD/GameOverPanel/VBoxContainer/RestartButton
-@onready var hub_button = $HUD/GameOverPanel/VBoxContainer/HubButton
+
 # ======================================================
 # VARIABLES
 # ======================================================
@@ -45,9 +46,10 @@ const TILE_SIZE := 16
 var current_floor := 1
 var enemies_alive := 0
 
-var floor_cells : Array[Vector2i] = []
-var wall_cells : Array[Vector2i] = []
+var floor_cells: Array[Vector2i] = []
+var wall_cells: Array[Vector2i] = []
 var rooms = []
+
 
 # ======================================================
 # ROOM CLASS
@@ -55,10 +57,10 @@ var rooms = []
 
 class Room:
 
-	var x : int
-	var y : int
-	var w : int
-	var h : int
+	var x:int
+	var y:int
+	var w:int
+	var h:int
 
 	func _init(px, py, pw, ph):
 
@@ -74,7 +76,7 @@ class Room:
 			y + h / 2
 		)
 
-	func intersects(other) -> bool:
+	func intersects(other)->bool:
 
 		return (
 			x < other.x + other.w
@@ -82,6 +84,7 @@ class Room:
 			and y < other.y + other.h
 			and y + h > other.y
 		)
+
 
 # ======================================================
 # READY
@@ -91,21 +94,14 @@ func _ready():
 
 	randomize()
 
-	print("==========")
-	print("Floor :", current_floor)
-	print("==========")
-
 	player.health_changed.connect(update_hp_label)
 
 	update_hp_label(player.health, player.max_health)
 	update_floor_label()
-	
+
 	generate_dungeon()
 
-	game_over_panel.visible = false
-	restart_button.pressed.connect(_on_restart_pressed)
-	hub_button.pressed.connect(_on_hub_pressed)
-	
+
 # ======================================================
 # NEXT FLOOR
 # ======================================================
@@ -113,15 +109,15 @@ func _ready():
 func next_floor():
 
 	current_floor += 1
+
 	update_floor_label()
-	
-	
-	print("")
-	print("=======================")
+
+	print("===================")
 	print("Entering Floor ", current_floor)
-	print("=======================")
+	print("===================")
 
 	generate_dungeon()
+
 
 # ======================================================
 # GENERATE DUNGEON
@@ -136,12 +132,14 @@ func generate_dungeon():
 		if child.is_in_group("Enemy"):
 			child.queue_free()
 
+
 	floor_layer.clear()
 	wall_layer.clear()
 
 	floor_cells.clear()
 	wall_cells.clear()
 	rooms.clear()
+
 
 	create_rooms()
 
@@ -153,9 +151,9 @@ func generate_dungeon():
 
 	spawn_player()
 
+
 	if current_floor < 5:
 		spawn_mobs()
-		
 	else:
 		spawn_boss()
 
@@ -192,7 +190,6 @@ func create_rooms():
 		for room in rooms:
 
 			if new_room.intersects(room):
-
 				overlaps = true
 				break
 
@@ -214,7 +211,8 @@ func create_rooms():
 				floor_cells.append(
 					Vector2i(rx, ry)
 				)
-				
+
+
 # ======================================================
 # CONNECT ROOMS
 # ======================================================
@@ -230,14 +228,30 @@ func connect_rooms():
 		var end = room_b.center()
 
 		# Horizontal Corridor
-		for x in range(min(start.x, end.x), max(start.x, end.x) + 1):
+
+		for x in range(
+			min(start.x, end.x),
+			max(start.x, end.x) + 1
+		):
+
 			for offset in range(-1, 2):
-				floor_cells.append(Vector2i(x, start.y + offset))
+
+				floor_cells.append(
+					Vector2i(x, start.y + offset)
+				)
 
 		# Vertical Corridor
-		for y in range(min(start.y, end.y), max(start.y, end.y) + 1):
+
+		for y in range(
+			min(start.y, end.y),
+			max(start.y, end.y) + 1
+		):
+
 			for offset in range(-1, 2):
-				floor_cells.append(Vector2i(end.x + offset, y))
+
+				floor_cells.append(
+					Vector2i(end.x + offset, y)
+				)
 
 
 # ======================================================
@@ -247,10 +261,12 @@ func connect_rooms():
 func generate_walls():
 
 	var dirs = [
+
 		Vector2i.LEFT,
 		Vector2i.RIGHT,
 		Vector2i.UP,
 		Vector2i.DOWN,
+
 		Vector2i(-1,-1),
 		Vector2i(1,-1),
 		Vector2i(-1,1),
@@ -277,6 +293,7 @@ func generate_walls():
 func draw_map():
 
 	floor_layer.set_cells_terrain_connect(
+
 		floor_cells,
 		0,
 		0
@@ -285,6 +302,7 @@ func draw_map():
 	for wall in wall_cells:
 
 		wall_layer.set_cell(
+
 			wall,
 			0,
 			Vector2i(1,4)
@@ -305,6 +323,7 @@ func spawn_player():
 	var pos = room.center()
 
 	player.global_position = Vector2(
+
 		pos.x * TILE_SIZE + TILE_SIZE / 2,
 		pos.y * TILE_SIZE + TILE_SIZE / 2
 	)
@@ -316,9 +335,6 @@ func spawn_player():
 
 func spawn_mobs():
 
-	print("----------------")
-	print("Current Floor:", current_floor)
-
 	enemies_alive = 0
 
 	var mob_scenes = []
@@ -327,7 +343,9 @@ func spawn_mobs():
 
 		1:
 			mob_count = 10
-			mob_scenes = [mob1_scene]
+			mob_scenes = [
+				mob1_scene
+			]
 
 		2:
 			mob_count = 15
@@ -338,17 +356,24 @@ func spawn_mobs():
 
 		3:
 			mob_count = 20
-			mob_scenes = [vampire_scene]
+			mob_scenes = [
+				vampire_scene
+			]
 
 		4:
 			mob_count = 25
-			mob_scenes = [vampire_scene]
+			mob_scenes = [
+				vampire_scene
+			]
 
-	print("Mob Count:", mob_count)
-	
+	update_enemy_label()
+
 	for i in range(mob_count):
 
 		var room = rooms.pick_random()
+
+		if room == null:
+			continue
 
 		var x = randi_range(
 			room.x + 1,
@@ -362,10 +387,7 @@ func spawn_mobs():
 
 		var mob_scene = mob_scenes.pick_random()
 
-		print("Picked Scene:", mob_scene)
-
 		if mob_scene == null:
-			print("ERROR: mob_scene is NULL")
 			continue
 
 		var mob = mob_scene.instantiate()
@@ -380,18 +402,24 @@ func spawn_mobs():
 		# Listen for enemy death
 		mob.died.connect(enemy_defeated)
 
-		enemies_alive += 1
-
 		add_child(mob)
 
-	print("Enemies Alive:", enemies_alive)
+		enemies_alive += 1
+
 	update_enemy_label()
 
+	print("Enemies Alive:", enemies_alive)
+
+
 # ======================================================
-# SPAWN Boss
+# SPAWN BOSS
 # ======================================================
 
 func spawn_boss():
+
+	enemies_alive = 1
+
+	update_enemy_label()
 
 	if rooms.is_empty():
 		return
@@ -407,8 +435,13 @@ func spawn_boss():
 		pos.y * TILE_SIZE + TILE_SIZE / 2
 	)
 
+	boss.add_to_group("Enemy")
+
+	boss.died.connect(enemy_defeated)
+
 	add_child(boss)
 
+	print("Boss Spawned")
 
 
 # ======================================================
@@ -420,36 +453,46 @@ func enemy_defeated():
 	enemies_alive -= 1
 
 	update_enemy_label()
+
 	print("Enemies Left:", enemies_alive)
+
+	if enemies_alive > 0:
+		return
+
+	# Boss Floor Finished
+	if current_floor >= 5:
+
+		print("Dungeon Cleared!")
+
+		await get_tree().create_timer(2.0).timeout
+
+		get_tree().change_scene_to_file("res://Scence/Map/hub.tscn")
+
+		return
+
+	# Next Floor
+
+	await get_tree().create_timer(1.0).timeout
+
+	next_floor()
 	
-
-	if enemies_alive <= 0:
-
-		await get_tree().create_timer(1.0).timeout
-
-		next_floor()
-
-
+	# ======================================================
+# HUD UPDATE
+# ======================================================
 
 func update_enemy_label():
-	enemy_label.text = "Enemies Left: " + str(enemies_alive)
+
+	enemy_label.text = "Enemies Left : " + str(enemies_alive)
+
 
 func update_hp_label(current_hp, max_hp):
 
 	hp_label.text = "HP : " + str(current_hp) + " / " + str(max_hp)
 
+
 func update_floor_label():
 
 	floor_label.text = "Floor : " + str(current_floor)
-
-func show_game_over():
-
-	game_over_panel.visible = true
 	
-func _on_restart_pressed():
-
-	get_tree().reload_current_scene()
 	
-func _on_hub_pressed():
-
-	get_tree().change_scene_to_file("res://Scence/main_menu.tscn")
+	

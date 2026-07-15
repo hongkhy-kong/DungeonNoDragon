@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bxxafky7foiem"]
 
-[ext_resource type="Script" uid="uid://s3x7gm4mcxvr" path="res://Scence/mobs/player.gd" id="1_jvee6"]
+[ext_resource type="Script" uid="uid://s3x7gm4mcxvr" path="res://Scence/player/player.gd" id="1_jvee6"]
 [ext_resource type="Texture2D" uid="uid://ciauj12m7w0c5" path="res://Asset/player/WarriorDownAttack01.png" id="1_wor4n"]
 [ext_resource type="Texture2D" uid="uid://cdpjjudlamyj7" path="res://Asset/player/WarriorRightAttack01.png" id="3_yd22d"]
 [ext_resource type="Texture2D" uid="uid://cfenmciaonmst" path="res://Asset/player/WarriorUpAttack01.png" id="4_n13pg"]
@@ -225,7 +225,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f0fw1")
 }],
-"loop": 0,
+"loop": false,
 "name": &"attack_down",
 "speed": 5.0
 }, {
@@ -248,7 +248,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f3ls1")
 }],
-"loop": 0,
+"loop": false,
 "name": &"attack_right",
 "speed": 10.0
 }, {
@@ -271,7 +271,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qdokd")
 }],
-"loop": 0,
+"loop": false,
 "name": &"attack_up",
 "speed": 5.0
 }, {
@@ -288,7 +288,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_34o1q")
 }],
-"loop": 1,
+"loop": true,
 "name": &"idle_down",
 "speed": 5.0
 }, {
@@ -302,7 +302,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o7uhf")
 }],
-"loop": 1,
+"loop": true,
 "name": &"idle_right",
 "speed": 2.0
 }, {
@@ -319,7 +319,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2ny12")
 }],
-"loop": 1,
+"loop": true,
 "name": &"idle_up",
 "speed": 1.0
 }, {
@@ -348,7 +348,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qfkas")
 }],
-"loop": 0,
+"loop": false,
 "name": &"walk_down",
 "speed": 5.0
 }, {
@@ -377,7 +377,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mrmpe")
 }],
-"loop": 0,
+"loop": false,
 "name": &"walk_right",
 "speed": 5.0
 }, {
@@ -406,7 +406,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7jscb")
 }],
-"loop": 0,
+"loop": false,
 "name": &"walk_up",
 "speed": 5.0
 }]
