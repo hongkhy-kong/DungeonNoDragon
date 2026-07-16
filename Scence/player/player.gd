@@ -4,8 +4,8 @@ signal health_changed(current_health, max_health)
 
 
 @export var speed := 120.0
-@export var max_health := 100
-@export var damage := 2500
+@export var max_health := 10000
+@export var damage := 100
 
 var health := max_health
 

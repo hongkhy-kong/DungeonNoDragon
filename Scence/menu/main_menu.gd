@@ -8,7 +8,7 @@ func _on_start_pressed():
 
 func _on_setting_pressed():
 	# TODO: Open the settings menu res://Scence/setting.tscn
-	get_tree().change_scene_to_file("res://Scence/setting.tscn")
+	get_tree().change_scene_to_file("res://Scence/setting/setting.tscn")
 	print("Settings button pressed")
 
 func _on_exit_pressed():
