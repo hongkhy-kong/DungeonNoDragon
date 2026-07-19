@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://cmu4dj04dm12p"]
+
+[ext_resource type="Script" uid="uid://j01s5nr7ke17" path="res://Scence/interactive/hp_bar.gd" id="1_n0ji7"]
+
+[node name="HPBar" type="CanvasLayer" unique_id=1142752405]
+script = ExtResource("1_n0ji7")
+
+[node name="BossLayer" type="Control" parent="." unique_id=535727381]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="BossLayer" unique_id=310883638]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -63.0
+offset_top = 32.0
+offset_right = 64.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Red Giant Lizard"
+
+[node name="ProgressBar" type="ProgressBar" parent="BossLayer" unique_id=1905085164]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -184.0
+offset_top = 63.0
+offset_right = 186.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 500.0
+value = 500.0

@@ -23,7 +23,9 @@ enum State {
 @onready var detection_shape: CollisionShape2D = $Detection/CollisionShape2D
 @onready var body_shape: CollisionShape2D = $CollisionShape2D
 @onready var timer: Timer = $Timer
-
+@onready var groan_sound: AudioStreamPlayer2D = $GroanSound
+@onready var attack_sound: AudioStreamPlayer2D = $AttackSound
+@onready var death_sound: AudioStreamPlayer2D = $DeathSound
 var hp: int
 var current_state: State = State.IDLE
 
@@ -71,15 +73,15 @@ func chase_state() -> void:
 		play_idle_animation()
 		return
 
-	var dir := player.global_position - global_position
-	var distance := dir.length()
-
-	if distance <= attack_distance:
+	# Stop chasing once the player enters the attack area
+	if player_in_attack_area:
 		velocity = Vector2.ZERO
 		current_state = State.ATTACK
 		return
 
+	var dir := player.global_position - global_position
 	facing_dir = dir.normalized()
+
 	velocity = facing_dir * speed
 	play_walk_animation()
 
@@ -91,14 +93,15 @@ func attack_state() -> void:
 		play_idle_animation()
 		return
 
-	var dir := player.global_position - global_position
-	var distance := dir.length()
-
-	if distance > attack_distance * 1.25:
+	# Resume chasing if the player leaves the attack area
+	if !player_in_attack_area:
 		current_state = State.CHASE
 		return
 
 	velocity = Vector2.ZERO
+
+	var dir := player.global_position - global_position
+	facing_dir = dir.normalized()
 
 	if can_attack and !preparing_attack:
 		start_attack()
@@ -125,6 +128,8 @@ func _on_detection_body_exited(body: Node2D) -> void:
 func _on_attack_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_attack_area = true
+		velocity = Vector2.ZERO
+
 		if current_state != State.DEAD:
 			current_state = State.ATTACK
 
@@ -138,6 +143,9 @@ func _on_attack_area_body_exited(body: Node2D) -> void:
 				return
 
 		player_in_attack_area = false
+
+		if player != null and is_instance_valid(player):
+			current_state = State.CHASE
 
 
 func start_attack() -> void:
@@ -169,11 +177,11 @@ func start_attack() -> void:
 	if current_state == State.DEAD:
 		return
 
-	if player != null \
-	and is_instance_valid(player) \
-	and global_position.distance_to(player.global_position) <= attack_distance * 1.25:
+	if player_in_attack_area \
+	and player != null \
+	and is_instance_valid(player):
 		attack()
-
+		attack_sound.play()
 	preparing_attack = false
 	timer.start(attack_cooldown)
 
@@ -199,9 +207,7 @@ func _on_timer_timeout() -> void:
 		current_state = State.IDLE
 		return
 
-	var distance := global_position.distance_to(player.global_position)
-
-	if distance <= attack_distance * 1.25:
+	if player_in_attack_area:
 		current_state = State.ATTACK
 	else:
 		current_state = State.CHASE
@@ -272,8 +278,17 @@ func die() -> void:
 	attack_shape.set_deferred("disabled", true)
 	detection_shape.set_deferred("disabled", true)
 
-	# Stop on the current frame
-	anim.pause()
+	# Play death sound
+	death_sound.play()
+
+	# Face the same direction before dying
+	anim.flip_h = facing_dir.x < 0
+
+	# Play death animation
+	anim.play("death")
+
+# Wait for the death animation to finish
+	await get_tree().create_timer(0.7).timeout
 
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 0.5)
@@ -281,3 +296,11 @@ func die() -> void:
 	await tween.finished
 
 	queue_free()
+
+
+func _on_groan_timer_timeout():
+	if current_state == State.DEAD:
+		return
+
+	groan_sound.pitch_scale = randf_range(0.9, 1.1)
+	groan_sound.play()

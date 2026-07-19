@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://cacb8dat0eeip"]
 
 [ext_resource type="Script" uid="uid://dbcs6om7a3l68" path="res://Scence/mobs/Zombie/zombie.gd" id="1_0jcqs"]
-[ext_resource type="Texture2D" uid="uid://b7n2grxmtdxoa" path="res://Scence/mobs/Zombie/Attack.png" id="2_bc08a"]
+[ext_resource type="Texture2D" uid="uid://b7n2grxmtdxoa" path="res://Scence/mobs/Zombie/asset/Attack.png" id="2_bc08a"]
 [ext_resource type="Texture2D" uid="uid://ctkj5yugyplxa" path="res://Asset/This/enemy/enemies-skeleton1_death.png" id="3_wbgkp"]
-[ext_resource type="Texture2D" uid="uid://bpb8cypot43kt" path="res://Scence/mobs/Zombie/Idle.png" id="4_bc08a"]
-[ext_resource type="Texture2D" uid="uid://bw4uuscqx75lk" path="res://Scence/mobs/Zombie/Walk.png" id="6_bc08a"]
+[ext_resource type="Texture2D" uid="uid://bpb8cypot43kt" path="res://Scence/mobs/Zombie/asset/Idle.png" id="4_bc08a"]
+[ext_resource type="Texture2D" uid="uid://bw4uuscqx75lk" path="res://Scence/mobs/Zombie/asset/Walk.png" id="6_bc08a"]
+[ext_resource type="AudioStream" uid="uid://c1j6eg3s7djx0" path="res://Scence/mobs/Zombie/sound/old-sound-of-zombie-in-minecraft.mp3" id="6_yqcau"]
+[ext_resource type="AudioStream" uid="uid://but1kvpve0u7n" path="res://Scence/mobs/Zombie/sound/warden-take-damage.mp3" id="7_b5bfw"]
+[ext_resource type="AudioStream" uid="uid://2xfg200jo41o" path="res://Scence/mobs/Zombie/sound/fahhh_KcgAXfs.mp3" id="8_1wexq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6d2vm"]
 atlas = ExtResource("2_bc08a")
@@ -441,7 +444,7 @@ size = Vector2(2.03125, 9)
 [sub_resource type="CircleShape2D" id="CircleShape2D_0jcqs"]
 radius = 116.00431
 
-[node name="Mob1" type="CharacterBody2D" unique_id=770263787 groups=["enemy"]]
+[node name="zombie" type="CharacterBody2D" unique_id=770263787 groups=["enemy"]]
 collision_mask = 8
 script = ExtResource("1_0jcqs")
 
@@ -449,7 +452,7 @@ script = ExtResource("1_0jcqs")
 light_mask = 2
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_j548l")
-animation = &"idle_left_right"
+animation = &"death"
 autoplay = "idle_left_right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1233296236]
@@ -475,8 +478,22 @@ visible = false
 position = Vector2(1, -4)
 shape = SubResource("CircleShape2D_0jcqs")
 
+[node name="GroanSound" type="AudioStreamPlayer2D" parent="." unique_id=1062500348]
+stream = ExtResource("6_yqcau")
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="." unique_id=1798411026]
+stream = ExtResource("7_b5bfw")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="." unique_id=927550669]
+stream = ExtResource("8_1wexq")
+
+[node name="GroanTimer" type="Timer" parent="." unique_id=1250383142]
+wait_time = 4.0
+autostart = true
+
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
 [connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]
+[connection signal="timeout" from="GroanTimer" to="." method="_on_groan_timer_timeout"]

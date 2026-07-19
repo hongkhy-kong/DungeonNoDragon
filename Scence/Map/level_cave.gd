@@ -25,6 +25,8 @@ extends Node2D
 
 # ======================================================
 # NODES
+
+@onready var boss_ui = $HUD/HPBar
 # ======================================================
 
 @onready var floor_layer = $FloorLayer
@@ -91,7 +93,6 @@ class Room:
 # ======================================================
 
 func _ready():
-
 	randomize()
 
 	player.health_changed.connect(update_hp_label)
@@ -415,35 +416,62 @@ func spawn_mobs():
 # SPAWN BOSS
 # ======================================================
 
+#func spawn_boss():
+#
+	#enemies_alive = 1
+#
+	#update_enemy_label()
+#
+	#if rooms.is_empty():
+		#return
+#
+	#var room = rooms.pick_random()
+#
+	#var boss = spider_scene.instantiate()
+#
+	#var pos = room.center()
+#
+	#boss.global_position = Vector2(
+		#pos.x * TILE_SIZE + TILE_SIZE / 2,
+		#pos.y * TILE_SIZE + TILE_SIZE / 2
+	#)
+#
+	#boss.add_to_group("Enemy")
+#
+	#boss.died.connect(enemy_defeated)
+#
+	#add_child(boss)
+#
+	#print("Boss Spawned")
+
 func spawn_boss():
-
 	enemies_alive = 1
-
 	update_enemy_label()
 
 	if rooms.is_empty():
 		return
 
 	var room = rooms.pick_random()
-
 	var boss = spider_scene.instantiate()
 
 	var pos = room.center()
-
 	boss.global_position = Vector2(
 		pos.x * TILE_SIZE + TILE_SIZE / 2,
 		pos.y * TILE_SIZE + TILE_SIZE / 2
 	)
 
 	boss.add_to_group("Enemy")
-
 	boss.died.connect(enemy_defeated)
 
 	add_child(boss)
+	if boss.has_method("set_boss_ui"):
+		boss.set_boss_ui(boss_ui)
+	# Give the boss a reference to the UI
+	if boss.has_method("set_boss_ui"):
+		boss.set_boss_ui(boss_ui)
 
 	print("Boss Spawned")
-
-
+	
 # ======================================================
 # ENEMY DIED
 # ======================================================

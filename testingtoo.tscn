@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://ds2a6lq15ryhu" path="res://Asset/This/character and tileset/Dungeon_Tileset.png" id="1_bkc3c"]
 [ext_resource type="PackedScene" uid="uid://maa2ga4hx13d" path="res://Scence/mobs/Groudon/groudon.tscn" id="3_bkc3c"]
 [ext_resource type="PackedScene" uid="uid://bxxafky7foiem" path="res://Scence/player/player.tscn" id="3_hcpxe"]
+[ext_resource type="PackedScene" uid="uid://cmu4dj04dm12p" path="res://Scence/interactive/HP bar.tscn" id="4_4b5mw"]
+[ext_resource type="PackedScene" uid="uid://bi5ht1rfs2vy6" path="res://Scence/mobs/Vampier/vampire.tscn" id="5_hcpxe"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2dvy0"]
 texture = ExtResource("1_bkc3c")
@@ -119,7 +121,12 @@ tile_map_data = PackedByteArray("AAD//wAAAAABAAAAAAAAAAAAAAABAAAAAAABAAAAAAABAAA
 tile_set = SubResource("TileSet_pi0ym")
 
 [node name="player" parent="." unique_id=1843001232 instance=ExtResource("3_hcpxe")]
-position = Vector2(197, 281)
+position = Vector2(168, 200)
 
 [node name="Groudon" parent="." unique_id=704703264 instance=ExtResource("3_bkc3c")]
-position = Vector2(399, 239)
+position = Vector2(782, 422)
+
+[node name="HPBar" parent="." unique_id=1142752405 instance=ExtResource("4_4b5mw")]
+
+[node name="Vampire" parent="." unique_id=1705892000 instance=ExtResource("5_hcpxe")]
+position = Vector2(241, 219)

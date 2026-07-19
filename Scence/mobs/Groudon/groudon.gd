@@ -33,6 +33,14 @@ enum State {
 @onready var attack_area: Area2D = $AttackArea
 @onready var detection_area: Area2D = $Detection
 
+@onready var melee_sound: AudioStreamPlayer2D = $melee_attack
+@onready var range_sound1: AudioStreamPlayer2D = $range_attack1
+@onready var range_sound2: AudioStreamPlayer2D = $range_attack2
+@onready var death_sound: AudioStreamPlayer2D = $die
+
+
+var boss_ui
+#------
 var hp: int
 var player: Node2D = null
 var state: State = State.IDLE
@@ -42,8 +50,13 @@ var attack_in_progress: bool = false
 var can_fireball: bool = true
 var dead: bool = false
 var facing: Vector2 = Vector2.DOWN
+var revived = false
 
 
+func set_boss_ui(ui):
+	boss_ui = ui
+	boss_ui.setup("Red Giant Lizard", max_hp)
+#____
 func _ready() -> void:
 	hp = max_hp
 
@@ -163,7 +176,10 @@ func _start_melee_attack() -> void:
 
 	if dead:
 		return
-
+		
+	if melee_sound and melee_sound.stream:
+		melee_sound.play()
+		
 	# Damage anything inside the attack area, but only player matters here
 	if player != null:
 		var dist := global_position.distance_to(player.global_position)
@@ -180,7 +196,6 @@ func _start_melee_attack() -> void:
 
 
 func _start_fireball_attack() -> void:
-	print("FIREBALL!")
 	attack_in_progress = true
 	can_fireball = false
 	velocity = Vector2.ZERO
@@ -188,10 +203,18 @@ func _start_fireball_attack() -> void:
 
 	_play_shoot_animation()
 
+	# Wait until the animation reaches the casting moment
 	await get_tree().create_timer(fireball_windup_time).timeout
 
 	if dead:
 		return
+
+	# Play casting sound
+	if range_sound1.stream:
+		range_sound1.play()
+
+	# Wait a bit before launching
+	await get_tree().create_timer(0.50).timeout
 
 	if fireball_scene != null and player != null:
 		var fireball = fireball_scene.instantiate()
@@ -199,12 +222,17 @@ func _start_fireball_attack() -> void:
 
 		fireball.global_position = global_position
 
+		var dir = (player.global_position - global_position).normalized()
+
 		if fireball.has_method("setup"):
-			fireball.setup((player.global_position - global_position).normalized(), fireball_damage)
+			fireball.setup(dir, fireball_damage)
 		else:
-			# Fallback if your fireball script uses direct variables
-			fireball.direction = (player.global_position - global_position).normalized()
+			fireball.direction = dir
 			fireball.damage = fireball_damage
+
+	# Play launch sound immediately after firing
+	if range_sound2.stream:
+		range_sound2.play()
 
 	await get_tree().create_timer(fireball_recover_time).timeout
 
@@ -214,18 +242,46 @@ func _start_fireball_attack() -> void:
 	if not dead:
 		_set_state(State.CHASE)
 
+func start_phase2():
+
+	revived = true
+	phase = 2
+
+	attack_in_progress = true
+	velocity = Vector2.ZERO
+
+	# Optional transition animation
+	anim.play("idle")
+
+	# Wait 2 seconds before reviving
+	await get_tree().create_timer(2.0).timeout
+
+	hp = max_hp
+
+	print("PHASE 2!")
+
+	# Become stronger
+	speed_phase2 += 20
+
+	attack_in_progress = false
 
 func take_damage(amount: int) -> void:
+	if boss_ui:
+		boss_ui.update_hp(hp)
 	if dead:
 		return
 
 	hp -= amount
 
-	if hp <= 0:
-		die()
-	elif phase == 1 and hp <= max_hp / 2:
-		phase = 2
+	# Phase 1 defeated
+	if hp <= 0 and !revived:
+		start_phase2()
+		return
 
+	# Phase 2 defeated
+	if hp <= 0 and revived:
+		die()
+	
 
 func die() -> void:
 	if dead:
@@ -234,6 +290,10 @@ func die() -> void:
 	dead = true
 	state = State.DEAD
 	velocity = Vector2.ZERO
+	
+	if death_sound and death_sound.stream:
+		death_sound.play()
+		
 	emit_signal("died")
 	queue_free()
 
