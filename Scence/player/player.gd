@@ -2,9 +2,8 @@ extends CharacterBody2D
 
 signal health_changed(current_health, max_health)
 
-
 @export var speed := 120.0
-@export var max_health := 10000
+@export var max_health := 10
 @export var damage := 100
 
 var health := max_health
@@ -28,8 +27,10 @@ var facing_name = "down"
 func _ready():
 
 	emit_signal("health_changed", health, max_health)
-
-
+	Bag.use_hp_potion.connect(_on_use_hp_potion)
+	
+func _on_use_hp_potion():
+	heal(50)
 func _physics_process(_delta):
 
 	if current_state == State.DEAD:
@@ -194,7 +195,17 @@ func take_damage(amount):
 
 	if health <= 0:
 		die()
+		
+func heal(amount:int):
 
+	if current_state == State.DEAD:
+		return
+
+	health = min(health + amount, max_health)
+
+	emit_signal("health_changed", health, max_health)
+
+	print("Player healed:", health)
 
 func die():
 
@@ -213,3 +224,10 @@ func die():
 	set_physics_process(false)
 
 	$CollisionShape2D.set_deferred("disabled", true)
+
+func _input(event):
+	if event.is_action_pressed("bag"):
+		if Bag.visible:
+			Bag.close_bag()
+		else:
+			Bag.open_bag()

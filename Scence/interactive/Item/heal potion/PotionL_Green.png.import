@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv04d25nauv3t"
-path="res://.godot/imported/PotionL_Yellow.png-18ba2a92ebbd4a5716db7d9c3098a4fb.ctex"
+uid="uid://dnuytqc2e6dc2"
+path="res://.godot/imported/PotionL_Green.png-0be069aacea20cff844cb2e2a243e9ee.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Asset/Something/Objects/PotionL_Yellow.png"
-dest_files=["res://.godot/imported/PotionL_Yellow.png-18ba2a92ebbd4a5716db7d9c3098a4fb.ctex"]
+source_file="res://Scence/Interactive/Item/heal potion/PotionL_Green.png"
+dest_files=["res://.godot/imported/PotionL_Green.png-0be069aacea20cff844cb2e2a243e9ee.ctex"]
 
 [params]
 

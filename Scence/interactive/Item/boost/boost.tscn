@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://cocjhltju66l4"]
+
+[ext_resource type="Script" uid="uid://cp8w5epatu7ru" path="res://Scence/Interactive/Item/boost/boost.gd" id="1_jef6e"]
+[ext_resource type="Texture2D" uid="uid://dv04d25nauv3t" path="res://Scence/Interactive/Item/boost/PotionL_Yellow.png" id="2_qtuo8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kavy4"]
+atlas = ExtResource("2_qtuo8")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnaeu"]
+atlas = ExtResource("2_qtuo8")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e570k"]
+atlas = ExtResource("2_qtuo8")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icec8"]
+atlas = ExtResource("2_qtuo8")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8c1jd"]
+atlas = ExtResource("2_qtuo8")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4lc6c"]
+atlas = ExtResource("2_qtuo8")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bur18"]
+atlas = ExtResource("2_qtuo8")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6sbhx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kavy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnaeu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e570k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_icec8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8c1jd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4lc6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bur18")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bxhmf"]
+radius = 3.0
+height = 12.0
+
+[node name="Boost" type="Area2D" unique_id=1088462006]
+script = ExtResource("1_jef6e")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=828704708]
+sprite_frames = SubResource("SpriteFrames_6sbhx")
+frame_progress = 0.24596578
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=780310852]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_bxhmf")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=972875092]

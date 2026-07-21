@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://tnqrw5bnne4p"]
 
-[ext_resource type="Script" uid="uid://ge43eoun0h1g" path="res://Scence/attack/fireball/fireball.gd" id="1_satjb"]
-[ext_resource type="Texture2D" uid="uid://ckt8u4evur8oy" path="res://Scence/attack/fireball/FireballAssets.png" id="1_ub6j2"]
+[ext_resource type="Script" uid="uid://ge43eoun0h1g" path="res://Scence/Attack/fireball/fireball.gd" id="1_satjb"]
+[ext_resource type="Texture2D" uid="uid://ckt8u4evur8oy" path="res://Scence/Attack/fireball/FireballAssets.png" id="1_ub6j2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_satjb"]
 atlas = ExtResource("1_ub6j2")

@@ -1,15 +1,15 @@
 [gd_scene format=4 uid="uid://32sdsuarn118"]
 
 [ext_resource type="Script" uid="uid://1gapkgbt53om" path="res://Scence/Map/level_cave.gd" id="1_spb51"]
-[ext_resource type="PackedScene" uid="uid://cacb8dat0eeip" path="res://Scence/mobs/Zombie/zombie.tscn" id="2_ecc81"]
-[ext_resource type="PackedScene" uid="uid://bi5ht1rfs2vy6" path="res://Scence/mobs/Vampier/vampire.tscn" id="3_6nt7w"]
-[ext_resource type="PackedScene" uid="uid://cadrmqi00do6t" path="res://Scence/Map/HUD.tscn" id="3_rwjwn"]
-[ext_resource type="PackedScene" uid="uid://maa2ga4hx13d" path="res://Scence/mobs/Groudon/groudon.tscn" id="4_pxwvg"]
+[ext_resource type="PackedScene" uid="uid://cacb8dat0eeip" path="res://Scence/Mobs/Zombie/zombie.tscn" id="2_ecc81"]
+[ext_resource type="PackedScene" uid="uid://bi5ht1rfs2vy6" path="res://Scence/Mobs/Vampier/vampire.tscn" id="3_6nt7w"]
+[ext_resource type="PackedScene" uid="uid://cadrmqi00do6t" path="res://Scence/UI/HUD/HUD.tscn" id="3_rwjwn"]
+[ext_resource type="PackedScene" uid="uid://maa2ga4hx13d" path="res://Scence/Mobs/Groudon/groudon.tscn" id="4_pxwvg"]
 [ext_resource type="Texture2D" uid="uid://ds2a6lq15ryhu" path="res://Asset/This/character and tileset/Dungeon_Tileset.png" id="4_uuwlg"]
 [ext_resource type="PackedScene" uid="uid://bxxafky7foiem" path="res://Scence/player/player.tscn" id="5_dka03"]
 [ext_resource type="Texture2D" uid="uid://cugleabhpiuls" path="res://Asset/This/8d53a44e6e34cd63c97228c8c93b9795.jpg" id="6_jgy86"]
 [ext_resource type="AudioStream" uid="uid://bjujp3uplrt17" path="res://Asset/BackgroundMusic/2-66. Champion Cynthia.mp3" id="8_uuwlg"]
-[ext_resource type="PackedScene" uid="uid://cmu4dj04dm12p" path="res://Scence/interactive/HP bar.tscn" id="9_pxwvg"]
+[ext_resource type="PackedScene" uid="uid://cmu4dj04dm12p" path="res://Scence/Interactive/HP bar.tscn" id="9_pxwvg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pw8gd"]
 texture = ExtResource("4_uuwlg")

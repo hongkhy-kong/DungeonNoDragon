@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b7va8p6dajx6e"]
 
-[ext_resource type="Script" uid="uid://cel2d4fstpcjc" path="res://Scence/interactive/portal.gd" id="1_upgss"]
+[ext_resource type="Script" uid="uid://cel2d4fstpcjc" path="res://Scence/Interactive/portal.gd" id="1_upgss"]
 [ext_resource type="Texture2D" uid="uid://b85pba6j1xlvb" path="res://Asset/Something/Tilesets/Dark Portal-Spinning.png" id="2_cduep"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gd7kg"]

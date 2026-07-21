@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnuytqc2e6dc2"
-path="res://.godot/imported/PotionL_Green.png-7d3ee7e50a8d9d665254bdee47d22513.ctex"
+uid="uid://codo2ymqbp0sj"
+path="res://.godot/imported/Coin.png-fc5cfca4d956d586c8ea125582bb096b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Asset/Something/Objects/PotionL_Green.png"
-dest_files=["res://.godot/imported/PotionL_Green.png-7d3ee7e50a8d9d665254bdee47d22513.ctex"]
+source_file="res://Scence/Interactive/Item/coin/Coin.png"
+dest_files=["res://.godot/imported/Coin.png-fc5cfca4d956d586c8ea125582bb096b.ctex"]
 
 [params]
 

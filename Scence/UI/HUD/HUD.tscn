@@ -1,0 +1,183 @@
+[gd_scene format=3 uid="uid://cadrmqi00do6t"]
+
+[ext_resource type="Script" uid="uid://d3vka05d0sjav" path="res://Scence/UI/HUD/hud.gd" id="1_ehj45"]
+[ext_resource type="Texture2D" uid="uid://1vnl4agto8ru" path="res://Scence/UI/HUD/asset/frrameXD.png" id="2_u7k7o"]
+[ext_resource type="FontFile" uid="uid://cd3u1n7l5k2h4" path="res://Asset/font/Mathreal.ttf" id="3_hmymt"]
+[ext_resource type="Texture2D" uid="uid://dqc6bvqok0yph" path="res://Scence/UI/HUD/asset/frametoo.png" id="4_35g78"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvdv3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i53qu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_on78x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hmymt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ehj45"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u7k7o"]
+
+[node name="HUD" type="CanvasLayer" unique_id=13256815]
+process_mode = 3
+script = ExtResource("1_ehj45")
+
+[node name="Control" type="Control" parent="." unique_id=394284228]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Frame" type="TextureRect" parent="Control" unique_id=368717936]
+layout_mode = 0
+offset_right = 263.0
+offset_bottom = 107.0
+texture = ExtResource("2_u7k7o")
+
+[node name="HPLabel" type="Label" parent="Control" unique_id=349894832]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 30.0
+offset_right = 104.0
+offset_bottom = 53.0
+theme_override_colors/font_color = Color(0, 1, 0.011764706, 1)
+theme_override_fonts/font = ExtResource("3_hmymt")
+text = "HP"
+
+[node name="EnemyLabel" type="Label" parent="Control" unique_id=1899075367]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 52.0
+offset_right = 117.0
+offset_bottom = 75.0
+theme_override_colors/font_color = Color(0.6745098, 0.07058824, 0, 1)
+theme_override_fonts/font = ExtResource("3_hmymt")
+text = "Enemy"
+
+[node name="FloorLabel" type="Label" parent="Control" unique_id=783384874]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 74.0
+offset_right = 117.0
+offset_bottom = 97.0
+theme_override_colors/font_color = Color(0.71525973, 0.3685464, 0.09736959, 1)
+theme_override_fonts/font = ExtResource("3_hmymt")
+text = "Level"
+
+[node name="PausePanel" type="Label" parent="." unique_id=925125666]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -11.5
+offset_right = 26.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="PausePanel" unique_id=392325761]
+layout_mode = 0
+offset_left = -30.5
+offset_top = -101.5
+offset_right = 178.0
+offset_bottom = 189.0
+texture = ExtResource("4_35g78")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PausePanel" unique_id=347293344]
+layout_mode = 0
+offset_left = -14.0
+offset_top = -23.0
+offset_right = 170.0
+offset_bottom = 122.0
+
+[node name="PauseLabel" type="Label" parent="PausePanel/VBoxContainer" unique_id=1061166027]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_hmymt")
+text = "           
+             PAUSE
+      ==============="
+
+[node name="ResumeButton" type="Button" parent="PausePanel/VBoxContainer" unique_id=268785441]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_hmymt")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_kvdv3")
+text = "Resume"
+
+[node name="RestartButton" type="Button" parent="PausePanel/VBoxContainer" unique_id=1140182705]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_hmymt")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_i53qu")
+text = "Restart"
+
+[node name="HubButton" type="Button" parent="PausePanel/VBoxContainer" unique_id=252853211]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_hmymt")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_on78x")
+text = "Return Spawn"
+
+[node name="GameOverPanel" type="Label" parent="." unique_id=1833117006]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -11.5
+offset_right = 26.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="GameOverPanel" unique_id=76105068]
+layout_mode = 0
+offset_left = -46.0
+offset_top = -74.0
+offset_right = 201.5
+offset_bottom = 166.5
+texture = ExtResource("4_35g78")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverPanel" unique_id=964416937]
+layout_mode = 0
+offset_left = -14.0
+offset_top = -23.0
+offset_right = 170.0
+offset_bottom = 122.0
+
+[node name="DeathLabel" type="Label" parent="GameOverPanel/VBoxContainer" unique_id=1257448545]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_hmymt")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hmymt")
+text = "  
+            YOU DIED
+       ==============="
+
+[node name="RestartButton" type="Button" parent="GameOverPanel/VBoxContainer" unique_id=499998845]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_hmymt")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ehj45")
+text = "Restart"
+
+[node name="HubButton" type="Button" parent="GameOverPanel/VBoxContainer" unique_id=1547894660]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_hmymt")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_u7k7o")
+text = "Return Spawn"
+
+[connection signal="pressed" from="PausePanel/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PausePanel/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PausePanel/VBoxContainer/HubButton" to="." method="_on_hub_button_pressed"]
+[connection signal="pressed" from="GameOverPanel/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOverPanel/VBoxContainer/HubButton" to="." method="_on_hub_button_pressed"]

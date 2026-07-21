@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://gdqdmmewgnts"]
+
+[ext_resource type="Script" uid="uid://drdmi2w1pqiwo" path="res://Scence/Interactive/Item/heal potion/heal.gd" id="1_0jj10"]
+[ext_resource type="Texture2D" uid="uid://dnuytqc2e6dc2" path="res://Scence/Interactive/Item/heal potion/PotionL_Green.png" id="2_wdsi1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15bjj"]
+atlas = ExtResource("2_wdsi1")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vu01g"]
+atlas = ExtResource("2_wdsi1")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e47y7"]
+atlas = ExtResource("2_wdsi1")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcv1l"]
+atlas = ExtResource("2_wdsi1")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybulk"]
+atlas = ExtResource("2_wdsi1")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex6bs"]
+atlas = ExtResource("2_wdsi1")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tfrg7"]
+atlas = ExtResource("2_wdsi1")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6sbhx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_15bjj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vu01g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e47y7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcv1l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ybulk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex6bs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tfrg7")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_11lpo"]
+radius = 4.0
+height = 12.0
+
+[node name="Heal" type="Area2D" unique_id=1088462006]
+script = ExtResource("1_0jj10")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=828704708]
+sprite_frames = SubResource("SpriteFrames_6sbhx")
+frame_progress = 0.3043528
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=780310852]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_11lpo")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=972875092]

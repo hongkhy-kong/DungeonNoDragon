@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cmu4dj04dm12p"]
 
-[ext_resource type="Script" uid="uid://j01s5nr7ke17" path="res://Scence/interactive/hp_bar.gd" id="1_n0ji7"]
+[ext_resource type="Script" uid="uid://j01s5nr7ke17" path="res://Scence/Interactive/hp_bar.gd" id="1_n0ji7"]
 
 [node name="HPBar" type="CanvasLayer" unique_id=1142752405]
 script = ExtResource("1_n0ji7")

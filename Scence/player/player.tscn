@@ -427,6 +427,7 @@ collision_layer = 3
 collision_mask = 9
 script = ExtResource("1_jvee6")
 speed = 150.0
+max_health = 100
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=705300148]
 position = Vector2(-7.1525574e-07, 0)

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://borf5ienrsj0i"]
 
-[ext_resource type="Script" uid="uid://ck1io2il10o8w" path="res://Scence/attack/will o wisp/wisp.gd" id="1_5t77i"]
-[ext_resource type="Texture2D" uid="uid://blmofmbe1woml" path="res://Scence/attack/will o wisp/fuoco fatuo viola.png" id="2_dcnj5"]
+[ext_resource type="Script" uid="uid://ck1io2il10o8w" path="res://Scence/Attack/will o wisp/wisp.gd" id="1_5t77i"]
+[ext_resource type="Texture2D" uid="uid://blmofmbe1woml" path="res://Scence/Attack/will o wisp/fuoco fatuo viola.png" id="2_dcnj5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hpaoo"]
 atlas = ExtResource("2_dcnj5")
