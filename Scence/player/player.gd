@@ -3,7 +3,7 @@ extends CharacterBody2D
 signal health_changed(current_health, max_health)
 
 @export var speed := 120.0
-@export var max_health := 10
+@export var max_health := 10000
 @export var damage := 100
 
 var health := max_health
@@ -206,6 +206,22 @@ func heal(amount:int):
 	emit_signal("health_changed", health, max_health)
 
 	print("Player healed:", health)
+
+func apply_random_buff():
+	var buff = randi_range(0, 2)
+
+	match buff:
+		0:
+			speed += 50
+			print("Buff: Speed +50!")
+
+		1:
+			damage += 20
+			print("Buff: Damage +20!")
+
+		2:
+			heal(50)
+			print("Buff: Heal 50 HP!")
 
 func die():
 

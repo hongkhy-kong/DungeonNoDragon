@@ -75,7 +75,7 @@ func _on_restart_button_pressed():
 func _on_hub_button_pressed():
 
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Scence/Map/hub.tscn")
+	get_tree().change_scene_to_file("res://Scence/Map/Spawn/hub.tscn")
 
 
 func _on_game_over_restart_button_pressed():

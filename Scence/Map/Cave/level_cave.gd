@@ -8,6 +8,9 @@ extends Node2D
 @export var vampire_scene: PackedScene
 @export var spider_scene: PackedScene
 
+@export var coin_scene: PackedScene
+@export var hp_potion_scene: PackedScene
+@export var buff_potion_scene: PackedScene
 
 # ======================================================
 # MAP SETTINGS
@@ -22,7 +25,8 @@ extends Node2D
 
 @export var mob_count := 15
 
-
+@export var min_items := 5
+@export var max_items := 10
 # ======================================================
 # NODES
 
@@ -130,7 +134,7 @@ func generate_dungeon():
 
 	for child in get_children():
 
-		if child.is_in_group("Enemy"):
+		if child.is_in_group("Enemy") or child.is_in_group("Item"):
 			child.queue_free()
 
 
@@ -157,7 +161,8 @@ func generate_dungeon():
 		spawn_mobs()
 	else:
 		spawn_boss()
-
+		
+	spawn_items()
 # ======================================================
 # CREATE ROOMS
 # ======================================================
@@ -494,7 +499,7 @@ func enemy_defeated():
 
 		await get_tree().create_timer(2.0).timeout
 
-		get_tree().change_scene_to_file("res://Scence/Map/hub.tscn")
+		get_tree().change_scene_to_file("res://Scence/Map/Spawn/hub.tscn")
 
 		return
 
@@ -523,4 +528,44 @@ func update_floor_label():
 	floor_label.text = "Floor : " + str(current_floor)
 	
 	
-	
+func spawn_items():
+
+	if rooms.is_empty():
+		return
+
+	var item_scenes = [
+		coin_scene,
+		coin_scene,
+		coin_scene,
+		coin_scene, # More common
+		hp_potion_scene,
+		buff_potion_scene
+	]
+
+	var item_count = randi_range(min_items, max_items)
+
+	for i in range(item_count):
+
+		var room = rooms.pick_random()
+
+		if room == null:
+			continue
+
+		var x = randi_range(room.x + 1, room.x + room.w - 2)
+		var y = randi_range(room.y + 1, room.y + room.h - 2)
+
+		var item_scene = item_scenes.pick_random()
+
+		if item_scene == null:
+			continue
+
+		var item = item_scene.instantiate()
+
+		item.global_position = Vector2(
+			x * TILE_SIZE + TILE_SIZE / 2,
+			y * TILE_SIZE + TILE_SIZE / 2
+		)
+
+		item.add_to_group("Item")
+
+		add_child(item)

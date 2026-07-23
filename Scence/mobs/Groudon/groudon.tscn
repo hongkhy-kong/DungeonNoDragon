@@ -620,6 +620,7 @@ shape = SubResource("CircleShape2D_kdqoe")
 debug_color = Color(0.9529412, 0.20392157, 1, 0.41960785)
 
 [node name="Timer" type="Timer" parent="." unique_id=1551401612]
+wait_time = 4.0
 
 [node name="idle" type="AudioStreamPlayer2D" parent="." unique_id=1553254662]
 stream = ExtResource("7_q5nc3")

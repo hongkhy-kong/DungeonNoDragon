@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://id5u4jwyncon"]
+
+[ext_resource type="Texture2D" uid="uid://5hi02ak0tbc3" path="res://Scence/Map/Shop/asset/ForestNpcs.png" id="1_lbrav"]
+[ext_resource type="Script" uid="uid://cy3d38upb0vu2" path="res://Scence/Map/Shop/shopkeeper.gd" id="1_nhati"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nhati"]
+atlas = ExtResource("1_lbrav")
+region = Rect2(126, 27, 18, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bujsc"]
+atlas = ExtResource("1_lbrav")
+region = Rect2(144, 27, 18, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2ups"]
+atlas = ExtResource("1_lbrav")
+region = Rect2(162, 27, 18, 27)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6sbhx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nhati")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bujsc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bujsc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bujsc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q2ups")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 1.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ctc6m"]
+size = Vector2(44, 20)
+
+[node name="Shopkeeper" type="Area2D" unique_id=316036931 groups=["npc"]]
+script = ExtResource("1_nhati")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1411443071]
+sprite_frames = SubResource("SpriteFrames_6sbhx")
+autoplay = "default"
+frame_progress = 0.6018522
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=81223935]
+position = Vector2(-12, 0)
+shape = SubResource("RectangleShape2D_ctc6m")
+
+[node name="Label" type="Label" parent="." unique_id=1416270629]
+offset_left = -7.0
+offset_top = -17.0
+offset_right = 6.0
+offset_bottom = -9.0
+theme_override_font_sizes/font_size = 5
+text = "Shop"

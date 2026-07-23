@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds2a6lq15ryhu"
-path="res://.godot/imported/Dungeon_Tileset.png-3dddba56992404c9f0cf017e2e977de8.ctex"
+uid="uid://rb0xdiewbwu2"
+path="res://.godot/imported/atlas_16x.png-925b9b06a3521db37148b3cb3bed5a87.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Asset/This/character and tileset/Dungeon_Tileset.png"
-dest_files=["res://.godot/imported/Dungeon_Tileset.png-3dddba56992404c9f0cf017e2e977de8.ctex"]
+source_file="res://Scence/Map/Shop/asset/atlas_16x.png"
+dest_files=["res://.godot/imported/atlas_16x.png-925b9b06a3521db37148b3cb3bed5a87.ctex"]
 
 [params]
 

@@ -10,7 +10,7 @@ enum State {
 	DEAD
 }
 
-@export var max_hp: int = 500
+@export var max_hp: int = 1000
 
 @export var speed_phase1: float = 45.0
 @export var speed_phase2: float = 60.0
@@ -38,9 +38,13 @@ enum State {
 @onready var range_sound2: AudioStreamPlayer2D = $range_attack2
 @onready var death_sound: AudioStreamPlayer2D = $die
 
+@export var melee_cooldown_phase1 := 2.0
+@export var melee_cooldown_phase2 := 1.0
+
+@export var fireball_cooldown := 3.0
 
 var boss_ui
-#------
+
 var hp: int
 var player: Node2D = null
 var state: State = State.IDLE
@@ -50,17 +54,20 @@ var attack_in_progress: bool = false
 var can_fireball: bool = true
 var dead: bool = false
 var facing: Vector2 = Vector2.DOWN
-var revived = false
 
+var phase2_started: bool = false
+var phase2_transitioning: bool = false
+
+var can_melee := true
 
 func set_boss_ui(ui):
 	boss_ui = ui
 	boss_ui.setup("Red Giant Lizard", max_hp)
-#____
+
+
 func _ready() -> void:
 	hp = max_hp
 
-	# Connect signals safely
 	if not detection_area.body_entered.is_connected(Callable(self, "_on_detection_body_entered")):
 		detection_area.body_entered.connect(Callable(self, "_on_detection_body_entered"))
 
@@ -69,20 +76,22 @@ func _ready() -> void:
 
 	anim.play("idle")
 
+	if boss_ui:
+		boss_ui.update_hp(hp)
+
 
 func _physics_process(delta: float) -> void:
 	if dead:
 		return
 
+	if phase2_transitioning:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
 	if hp <= 0:
 		die()
 		return
-
-	# Phase 2 starts at 50% HP
-	if phase == 1 and hp <= max_hp / 2:
-		phase = 2
-		print("PHASE 2")
-		speed_phase2 = max(speed_phase2, speed_phase1 + 10.0)
 
 	if player == null:
 		_set_state(State.IDLE)
@@ -97,7 +106,10 @@ func _physics_process(delta: float) -> void:
 
 	var distance := global_position.distance_to(player.global_position)
 
-	# Decide state
+	if phase == 1 and hp <= 500 and not phase2_started:
+		start_phase2()
+		return
+
 	if distance <= melee_range:
 		_set_state(State.MELEE_ATTACK)
 	elif phase == 2 and can_fireball and distance <= fireball_range:
@@ -105,7 +117,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		_set_state(State.CHASE)
 
-	# Execute non-attack movement
 	match state:
 		State.IDLE:
 			velocity = Vector2.ZERO
@@ -137,7 +148,6 @@ func _set_state(new_state: State) -> void:
 			anim.play("idle")
 
 		State.CHASE:
-			# animation handled in _chase_player()
 			pass
 
 		State.MELEE_ATTACK:
@@ -166,7 +176,16 @@ func _chase_player() -> void:
 
 
 func _start_melee_attack() -> void:
-	attack_in_progress = true
+	var cooldown = melee_cooldown_phase1
+	attack_in_progress = false
+	can_melee = false
+
+	if phase == 2:
+		cooldown = melee_cooldown_phase2
+
+	await get_tree().create_timer(cooldown).timeout
+	can_melee = true
+	
 	velocity = Vector2.ZERO
 	move_and_slide()
 
@@ -176,11 +195,10 @@ func _start_melee_attack() -> void:
 
 	if dead:
 		return
-		
+
 	if melee_sound and melee_sound.stream:
 		melee_sound.play()
-		
-	# Damage anything inside the attack area, but only player matters here
+
 	if player != null:
 		var dist := global_position.distance_to(player.global_position)
 		if dist <= melee_range + 8.0:
@@ -196,24 +214,25 @@ func _start_melee_attack() -> void:
 
 
 func _start_fireball_attack() -> void:
-	attack_in_progress = true
-	can_fireball = false
+	attack_in_progress = false
+
+	await get_tree().create_timer(fireball_cooldown).timeout
+	can_fireball = true
 	velocity = Vector2.ZERO
 	move_and_slide()
-
+	if player != null:
+		var dir = (player.global_position - global_position).normalized()
+		_update_facing(dir)
 	_play_shoot_animation()
 
-	# Wait until the animation reaches the casting moment
 	await get_tree().create_timer(fireball_windup_time).timeout
 
 	if dead:
 		return
 
-	# Play casting sound
 	if range_sound1.stream:
 		range_sound1.play()
 
-	# Wait a bit before launching
 	await get_tree().create_timer(0.50).timeout
 
 	if fireball_scene != null and player != null:
@@ -230,7 +249,6 @@ func _start_fireball_attack() -> void:
 			fireball.direction = dir
 			fireball.damage = fireball_damage
 
-	# Play launch sound immediately after firing
 	if range_sound2.stream:
 		range_sound2.play()
 
@@ -242,46 +260,54 @@ func _start_fireball_attack() -> void:
 	if not dead:
 		_set_state(State.CHASE)
 
-func start_phase2():
 
-	revived = true
-	phase = 2
+func start_phase2() -> void:
+	if phase2_started or dead:
+		return
 
+	phase2_started = true
+	phase2_transitioning = true
 	attack_in_progress = true
 	velocity = Vector2.ZERO
+	move_and_slide()
 
-	# Optional transition animation
 	anim.play("idle")
+	print("PHASE 2 START!")
 
-	# Wait 2 seconds before reviving
 	await get_tree().create_timer(2.0).timeout
 
-	hp = max_hp
+	if dead:
+		return
 
-	print("PHASE 2!")
+	phase = 2
+	speed_phase2 = max(speed_phase2, speed_phase1 + 20.0)
 
-	# Become stronger
-	speed_phase2 += 20
-
+	phase2_transitioning = false
 	attack_in_progress = false
 
-func take_damage(amount: int) -> void:
 	if boss_ui:
 		boss_ui.update_hp(hp)
-	if dead:
+
+
+func take_damage(amount: int) -> void:
+	if dead or phase2_transitioning:
 		return
 
 	hp -= amount
 
-	# Phase 1 defeated
-	if hp <= 0 and !revived:
+	if hp < 0:
+		hp = 0
+
+	if boss_ui:
+		boss_ui.update_hp(hp)
+
+	if hp <= 500 and phase == 1 and not phase2_started:
 		start_phase2()
 		return
 
-	# Phase 2 defeated
-	if hp <= 0 and revived:
+	if hp <= 0 and phase == 2:
 		die()
-	
+
 
 func die() -> void:
 	if dead:
@@ -290,10 +316,10 @@ func die() -> void:
 	dead = true
 	state = State.DEAD
 	velocity = Vector2.ZERO
-	
+
 	if death_sound and death_sound.stream:
 		death_sound.play()
-		
+
 	emit_signal("died")
 	queue_free()
 
@@ -356,8 +382,8 @@ func _play_shoot_animation() -> void:
 
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.
+	pass
 
 
 func _on_attack_area_body_exited(body: Node2D) -> void:
-	pass # Replace with function body.
+	pass

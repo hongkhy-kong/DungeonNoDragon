@@ -7,6 +7,6 @@ func _ready():
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):
-		body.heal(heal_amount)
+		Inventory.hp_potions += 1
 		queue_free()
 		

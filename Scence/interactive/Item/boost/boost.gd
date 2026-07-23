@@ -5,5 +5,5 @@ func _ready():
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):
-		body.apply_random_buff()
+		Inventory.buff_potions += 1
 		queue_free()

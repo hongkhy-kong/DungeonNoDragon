@@ -10,7 +10,7 @@ func _ready():
 func _process(delta):
 
 	if player_inside and Input.is_action_just_pressed("interact"):
-		get_tree().change_scene_to_file("res://Scence/Map/level_cave.tscn")
+		get_tree().change_scene_to_file("res://Scence/Map/Cave/level_cave.tscn")
 
 
 func _on_body_entered(body):
